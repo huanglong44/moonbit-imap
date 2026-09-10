@@ -1,6 +1,6 @@
 # IMAP4 会话核心
 
-MoonBit 本地候选版 0.1.0。带标签命令、响应流、字节 literal 和会话状态。
+MoonBit 本地候选版 0.2.0。带标签命令、响应流、字节 literal 和会话状态。
 
 ## 快速试用
 
@@ -34,7 +34,7 @@ MoonBit 工具链与 Node.js 安装好后，在此目录运行：
 
 ## 来源与许可证
 
-按[公开规格/参考项目](https://www.rfc-editor.org/rfc/rfc3501)重新实现，没有复制上游代码或大规模词库。源码采用 MIT；原始测试输入为本地新编写。Tcl 的独立对照测试由系统 Tcl 8.6.15 计算结果，测试不依赖 Tcl 运行时。
+按[公开规格/参考项目](https://www.rfc-editor.org/rfc/rfc3501)重新实现，没有复制上游代码或大规模词库。源码采用 MIT；原始测试输入为本地新编写。
 
 [查重](DUPLICATION.md)只描述本轮检索证据。`localreview` 是本地命名空间，正式发布前需替换为申请人的命名空间。
 
@@ -45,3 +45,24 @@ MoonBit 工具链与 Node.js 安装好后，在此目录运行：
 所有文件仅在本地，未创建远程仓库、上传、发布包或提交比赛。
 
 网页采用字面量 `\r\n` 表示 CRLF，避免浏览器 textarea 自动将换行变为 LF。核心 Decoder 仍按精确 Bytes 处理，不替换网络输入。
+
+## 独立仓库工作流
+
+本目录是该项目后续开发的唯一主仓库，旧批次目录及 ZIP 为历史审查快照。没有 Git remote，没有共享构建目录，没有上级 moon.work。
+
+真实 CLI 支持输入参数、文件和标准输入：
+
+```powershell
+node tools/cli.mjs --help
+node tools/cli.mjs --file sample.txt --json
+```
+
+需要安装 MoonBit 后传 `-MoonPath` 或将 moon 加入 PATH；不依赖工作区之外的私有脚本。详见 [TESTING.md](TESTING.md) 和 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+## 本轮功能升级
+
+收紧 FETCH sequence-set 语法，支持范围、星号、逗号和 32 位边界。
+
+无 TLS/socket 传输、完整命令集和邮件服务器互操作套件。
+
+[可执行 API 示例](README.mbt.md)会随测试运行；[功能边界](FEATURES.md)和[测试说明](TESTING.md)用于独立审查。网页与 CLI 展示示例入口，新 API 的完整使用见可执行示例。

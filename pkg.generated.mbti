@@ -6,6 +6,7 @@ import {
 }
 
 // Values
+pub fn valid_sequence_set(String) -> Bool
 
 // Errors
 pub suberror ImapError {

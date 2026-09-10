@@ -205,12 +205,8 @@ pub fn Session::command(
         raise Invalid("FETCH state/arity")
       }
       let a = args[0]
-      if a.is_empty() ||
-        !a
-        .to_array()
-        .iter()
-        .all(c => (c >= '0' && c <= '9') || c == ':' || c == ',' || c == '*') {
-        raise Invalid("sequence set")
+      if !valid_sequence_set(a) {
+        raise Invalid("invalid sequence set")
       }
       a + " (UID FLAGS RFC822.SIZE)"
     }

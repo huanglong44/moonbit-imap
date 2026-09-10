@@ -1,0 +1,53 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "localreview/imap"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+
+// Errors
+pub suberror ImapError {
+  Invalid(String)
+} derive(@debug.Debug)
+
+// Types and methods
+pub struct Decoder {
+  mut buffer : Bytes
+  mut head : String
+  literals : Array[Bytes]
+  mut expected : Int
+  mut failed : Bool
+} derive(@debug.Debug)
+pub fn Decoder::feed(Self, Bytes) -> Array[Response] raise ImapError
+pub fn Decoder::finish(Self) -> Unit raise ImapError
+pub fn Decoder::new() -> Self
+
+pub(all) struct Response {
+  line : String
+  literals : Array[Bytes]
+} derive(Eq, @debug.Debug)
+
+pub struct Session {
+  mut status : State
+  mut serial : Int
+  mut pending : (String, String)?
+  decoder : Decoder
+} derive(@debug.Debug)
+pub fn Session::command(Self, String, Array[String]) -> String raise ImapError
+pub fn Session::feed(Self, Bytes) -> Array[Response] raise ImapError
+pub fn Session::new() -> Self
+pub fn Session::state(Self) -> State
+
+pub(all) enum State {
+  Greeting
+  NotAuthenticated
+  Authenticated
+  Selected
+  Closed
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits

@@ -1,0 +1,49 @@
+{
+  "project": "imap",
+  "checks": [
+    {
+      "command": "moon fmt",
+      "exit_code": 0,
+      "output": "Finished. moon: ran 4 tasks, now up to date\n",
+      "utc": "2026-09-10T06:05:15.642472+00:00"
+    },
+    {
+      "command": "moon info",
+      "exit_code": 0,
+      "output": "Finished. moon: ran 3 tasks, now up to date\n",
+      "utc": "2026-09-10T06:05:15.858630+00:00"
+    },
+    {
+      "command": "moon check --deny-warn",
+      "exit_code": 0,
+      "output": "Finished. moon: ran 4 tasks, now up to date\n",
+      "utc": "2026-09-10T06:05:16.321099+00:00"
+    },
+    {
+      "command": "moon test --target wasm-gc --deny-warn",
+      "exit_code": 0,
+      "output": "Total tests: 8, passed: 8, failed: 0.\n",
+      "utc": "2026-09-10T06:05:16.886083+00:00"
+    },
+    {
+      "command": "moon test --target js --deny-warn",
+      "exit_code": 0,
+      "output": "Total tests: 8, passed: 8, failed: 0.\n",
+      "utc": "2026-09-10T06:05:17.928109+00:00"
+    },
+    {
+      "command": "moon build --target js --deny-warn",
+      "exit_code": 0,
+      "output": "Finished. moon: ran 5 tasks, now up to date\n",
+      "utc": "2026-09-10T06:05:19.149761+00:00"
+    },
+    {
+      "command": "moon run cmd/main",
+      "exit_code": 0,
+      "output": "[\n  {\n    line: \"* 1 FETCH (BODY[] {5}\\n)\",\n    literals: [<Bytes: [0x68, 0x65, 0x6c, 0x6c, 0x6f]>],\n  },\n  { line: \"A1 OK completed\", literals: [] },\n]\n",
+      "utc": "2026-09-10T06:05:19.788958+00:00"
+    }
+  ],
+  "demo": "[\n  {\n    line: \"* 1 FETCH (BODY[] {5}\\n)\",\n    literals: [<Bytes: [0x68, 0x65, 0x6c, 0x6c, 0x6f]>],\n  },\n  { line: \"A1 OK completed\", literals: [] },\n]",
+  "source_lines": 332
+}

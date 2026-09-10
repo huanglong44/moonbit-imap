@@ -1,0 +1,6 @@
+import {
+  "localreview/imap" @lib,
+  "moonbitlang/core/encoding/utf8",
+}
+
+pkgtype(kind: "executable")

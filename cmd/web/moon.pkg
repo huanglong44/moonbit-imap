@@ -1,0 +1,12 @@
+import {
+  "localreview/imap" @lib,
+  "moonbitlang/core/encoding/utf8",
+}
+
+supported_targets = "js"
+
+pkgtype(kind: "executable")
+
+options(
+  link: { "js": { "exports": [ "run" ], "format": "esm" } },
+)

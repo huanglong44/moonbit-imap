@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-10",
+  "registry": {
+    "topic": "imap",
+    "url": "https://mooncakes.io/api/v0/search?kw=imap&limit=30",
+    "results": []
+  },
+  "github": {
+    "topic": "imap",
+    "query": "imap language:MoonBit",
+    "url": "https://api.github.com/search/repositories?q=imap+language%3AMoonBit&per_page=30",
+    "total_count": 0,
+    "results": []
+  },
+  "scope": "keyword package metadata + public repository search; not full code, private repos, or contest registration list"
+}

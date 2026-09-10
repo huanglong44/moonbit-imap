@@ -1,9 +1,9 @@
 name = "localreview/imap"
 
-version = "0.2.0"
+version = "0.3.0"
 
 license = "MIT"
 
 readme = "README.md"
 
-description = "IMAP4 会话核心本地候选"
+description = "IMAP4 会话、同步 literal、IDLE 与 TCP/TLS 客户端"

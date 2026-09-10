@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-09-10T15:31:39.407179+00:00",
+  "version": "0.3.0",
+  "coreTests": {
+    "target": "js",
+    "passed": 16,
+    "failed": 0,
+    "additionalFocusedPassed": 1,
+    "additionalFocusedName": "UTF-8 syntax budget applies across literal boundaries"
+  },
+  "network": {
+    "fixtureGroupsPassed": 8,
+    "protocols": [
+      "TCP",
+      "implicit TLS"
+    ],
+    "scope": "own loopback server; trust/hostname, timeout/abort, bytes and continuation lifecycles"
+  },
+  "independentServer": {
+    "name": "GreenMail 2.1.13",
+    "workflowGroupsPassed": 7,
+    "transport": "TCP",
+    "plainAuthTested": false,
+    "plainAuthReason": "Independent server does not advertise AUTH=PLAIN"
+  },
+  "finalFocusedChecks": [
+    "bridge JSON size guard",
+    "compiled offline browser engine example"
+  ],
+  "engineSha256": "d943603253ad0bf9b49983f38ef6450aa7ea9c963fd77cb7b51e67927c9fcde9",
+  "sourceFiles": {
+    "commands.mbt": "18730d260073a55a2f9b45fe39ad52d48bde0cb981443f2ce0ea086c6dc2aff4",
+    "decoder.mbt": "8e2ca3c694ac714c9b72c714f5610bab2416d7b8b4ade947dac08e83c98e568d",
+    "mailbox.mbt": "8f37abcce24fbcdb46fdf8ad5405f6f3f4f76df7e30ccef488f125f3868811e4",
+    "protocol.mbt": "81b8acc435d759ee1182899e5cc890c26bf292a53c2b3815296e2e9b487b2a1c",
+    "session.mbt": "cf84d4732aee1cb1f500cba61ce48ad548a693b3b9e1431b36193a7d96c23563",
+    "usability.mbt": "0f7a6b95038c312c4271ffc5bfbec2a5602896074a23a723e27186692e5a5814"
+  },
+  "wasmGcRetested": false,
+  "browserVisualReviewExecuted": false,
+  "full20SuiteRun": false,
+  "archivesUpdated": false,
+  "independentServerStopped": true
+}

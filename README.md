@@ -1,68 +1,85 @@
-# IMAP4 会话核心
+# IMAP4 会话与客户端
 
-MoonBit 本地候选版 0.2.0。带标签命令、响应流、字节 literal 和会话状态。
+本地候选版 **0.3.0**。MoonBit 负责精确字节解析、命令校验、会话与 continuation 状态；Node.js 宿主提供 TCP/隐式 TLS、超时、取消和异步命令入口。仍在完善，未上传或发布。
 
-## 快速试用
+## 真实客户端使用
 
-已附真实 MoonBit 编译的浏览器引擎。需要 Python 3：
+```js
+import {ImapClient} from './tools/client.mjs';
 
-```powershell
-./start-review.ps1
+const client = await ImapClient.connect({
+  host: process.env.IMAP_HOST,
+  // 默认隐式 TLS，端口 993，强制证书信任和主机名验证。
+});
+try {
+  await client.login(process.env.IMAP_USER, process.env.IMAP_PASSWORD);
+  await client.select('INBOX', {readOnly: true});
+  const result = await client.fetch('1:*', '(UID FLAGS RFC822.SIZE BODY.PEEK[HEADER])');
+  for (const response of result.responses) {
+    console.log(response.line);
+    for (const literal of response.literals) console.log(literal.toString('utf8'));
+  }
+  await client.logout();
+} finally {
+  client.close();
+}
 ```
 
-浏览器打开 http://127.0.0.1:8795/web/ 。也可以从第二批合集审查页直接运行。
+命令返回 `{ok, status, completion, responses}`，服务器 NO/BAD 抛出带完整结果的 `ImapCommandError`。每个响应含原始语法行与 `Buffer[]` literals；二进制邮件不会通过文本解码器。此 API 暂不把完整 FETCH/ENVELOPE/BODYSTRUCTURE 转成高级对象。
 
-## 构建与测试
-
-MoonBit 工具链与 Node.js 安装好后，在此目录运行：
-
-```powershell
-./verify.ps1
-# 或指定编译器
-./verify.ps1 -MoonPath C:/path/to/moon/bin/moon.exe
+```js
+// 上传：等待服务端 continuation 后才发送正文。
+await client.append('中文邮件夹', Buffer.from('Subject: test\r\n\r\nhello\r\n'), {
+  flags: '\\Seen',
+});
+// UID 入口不会将 32 位 UID 误当序号。
+await client.search('ALL', {uid: true});
+await client.store('42', '\\Flagged', {uid: true});
+// 服务器公布 IDLE 后可进入通知模式；done() 等待带标签完成响应。
+const idle = await client.idle({onUpdate: response => console.log(response.line)});
+await idle.done();
 ```
 
-脚本检查源码、在 Wasm-GC 和 JS 跑测试、构建浏览器引擎并运行示例。直接执行命令行示例：`moon run cmd/main`。`pkg.generated.mbti` 是生成的公共 API。
+客户端同一时刻仅允许一个命令。IDLE 中不能插入其它命令，默认 29 分钟自动发送 DONE；可设置更短 `maxDuration`，不自动重新进入 IDLE。支持 AbortSignal 取消整个连接。普通命令采用固定总截止时间，默认 10 秒。连接失败不自动重试，避免重复上传或修改邮件。
 
-## 已实现范围
+## 已实现命令与编码
 
-带标签命令、响应流、字节 literal 和会话状态。示例输入与调用逻辑见 `cmd/main/main.mbt`；网页允许修改输入并执行实际编译代码。
+LOGIN、AUTHENTICATE PLAIN、CAPABILITY、NOOP、LOGOUT；SELECT/EXAMINE、CREATE/DELETE/RENAME、LIST/LSUB、SUBSCRIBE/UNSUBSCRIBE、STATUS；FETCH/SEARCH/STORE/COPY/MOVE 及 UID 形式；CHECK/CLOSE/EXPUNGE/UNSELECT；同步 APPEND 和 IDLE/DONE。
 
-## 当前边界
+Node 便捷方法自动将中文邮件夹编码成 modified UTF-7，公开 `encodeMailbox/decodeMailbox` 可独立使用。LOGIN 使用可打印 ASCII 引号字符串；UTF-8 用户名可在服务器提供 AUTH=PLAIN 时使用 `authenticatePlain`。认证成功后更新能力缓存，必要时发送 CAPABILITY。
 
-不含 socket/TLS、SASL、IDLE、邮件 MIME 或完整 FETCH 语义；仅 LOGIN/SELECT/EXAMINE/FETCH 元信息/NOOP/CAPABILITY/LOGOUT；未与真实服务器互通。
+Node `command(verb,args)` 和 MoonBit `Session::command` 是较底层入口，邮件夹参数应预先编码；SEARCH 与 FETCH 表达式检查 ASCII、引号、括号和换行注入，具体查询语法仍由服务器验证。没有宣称实现全部表达式的 AST 或语义检查。MOVE/UNSELECT 等扩展仍需要服务器支持。
 
-## 来源与许可证
+## 本次验证
 
-按[公开规格/参考项目](https://www.rfc-editor.org/rfc/rfc3501)重新实现，没有复制上游代码或大规模词库。源码采用 MIT；原始测试输入为本地新编写。
+- **16 项 MoonBit JS 测试通过**：包含所有分割位置的旧测试、新的状态转换、literal、SASL/IDLE、UTF-7 RFC 向量、1 MiB 分片与资源边界。
+- **8 组回环 TCP/TLS 场景通过**：包括认证、二进制上传/读取、IDLE、超时/取消、证书信任和主机名检查。
+- **GreenMail 2.1.13 独立服务器 7 条流程通过**：登录与能力发现、中文邮件夹、上传/选择/状态、UID 查询/读取/修改/复制、IDLE、清理与退出。
 
-[查重](DUPLICATION.md)只描述本轮检索证据。`localreview` 是本地命名空间，正式发布前需替换为申请人的命名空间。
+GreenMail 未公布 AUTH=PLAIN，独立 PLAIN 互通没有执行；该机制仅有核心及自编回环服务器证据。独立服务器走回环 TCP，TLS 使用专门回环服务验证。尚未验证 Dovecot/Cyrus/真实邮箱服务、长时间运行或本次新版 Wasm-GC。
 
-## 下一步
+详见 `evidence/network-focused-validation.json`、`evidence/greenmail-validation.json` 和 `evidence/client-focused-validation.json`。有证据的子集不等于完整追平 go-imap。
 
-保留候选：先补边界和上游兼容范围，再决定是否申报。
+## 运行、构建与限制
 
-所有文件仅在本地，未创建远程仓库、上传、发布包或提交比赛。
-
-网页采用字面量 `\r\n` 表示 CRLF，避免浏览器 textarea 自动将换行变为 LF。核心 Decoder 仍按精确 Bytes 处理，不替换网络输入。
-
-## 独立仓库工作流
-
-本目录是该项目后续开发的唯一主仓库，旧批次目录及 ZIP 为历史审查快照。没有 Git remote，没有共享构建目录，没有上级 moon.work。
-
-真实 CLI 支持输入参数、文件和标准输入：
-
-```powershell
-node tools/cli.mjs --help
+```sh
+moon test --target js --deny-warn
+node tools/test-network.mjs
 node tools/cli.mjs --file sample.txt --json
 ```
 
-需要安装 MoonBit 后传 `-MoonPath` 或将 moon 加入 PATH；不依赖工作区之外的私有脚本。详见 [TESTING.md](TESTING.md) 和 [CONTRIBUTING.md](CONTRIBUTING.md)。
+`tools/test-network.mjs` 需要 Node.js 与 OpenSSL 生成临时测试证书；仅监听本机随机端口，结束时关闭。`./verify.ps1` 是完整项目检查入口；`./start-review.ps1` 启动已编译的离线响应解析网页。浏览器用字面量 `\r\n` 输入换行，网络路径始终使用真实字节。
 
-## 本轮功能升级
+解析器按字节累积，避免旧版在每个分片复制完整邮件。每个 literal 最大 1 MiB、一个响应最多 64 个 literal、总 literal 字节最多 2 MiB、语法文本 64 KiB。宿主单命令收集最多 8 MiB/4096 条响应；IDLE 更新直接回调。APPEND 最多 1 MiB，一次发送正文，尚不支持流式大邮件写入或非同步 literal。
 
-收紧 FETCH sequence-set 语法，支持范围、星号、逗号和 32 位边界。
+尚缺 STARTTLS、其它 SASL 机制及 SASLprep、完整响应 AST/FETCH 语义、查询构造器、命令流水线、selected mailbox 元数据/变化跟踪、多连接管理、更多 IMAP 扩展与性能证据。Core 的 Decoder/Session 内部字段在本版改为私有，请通过公开方法访问。
 
-无 TLS/socket 传输、完整命令集和邮件服务器互操作套件。
+显式 `secure:false` 使用明文 TCP，认证还必须显式允许 `allowInsecureAuth:true`；这两个选项用于本机测试。TLS 不支持关闭验证，用户可提供 `tls.ca` 和 `tls.servername` 信任自己的服务器。
 
-[可执行 API 示例](README.mbt.md)会随测试运行；[功能边界](FEATURES.md)和[测试说明](TESTING.md)用于独立审查。网页与 CLI 展示示例入口，新 API 的完整使用见可执行示例。
+## 来源与本地审查
+
+依据 [RFC 3501](https://www.rfc-editor.org/rfc/rfc3501)、[RFC 2177](https://www.rfc-editor.org/rfc/rfc2177) 原创实现，对照 [go-imap 客户端能力](https://pkg.go.dev/github.com/emersion/go-imap/v2/imapclient)。GreenMail 是独立验证依赖，没有复制其源码或打包其 JAR。源码 MIT；`localreview/imap` 仅为本地命名空间。
+
+本目录是独立 Git 主仓库。旧 ZIP/bundle 和合集清单保留原审查快照，本次未重打包；没有 Git remote，也没有公开部署或比赛验收结论。
+
+最后修补了跨 literal 的 UTF-8 语法预算累计，额外 1 个定向边界用例通过；原 16 项项目测试未重复全量运行。

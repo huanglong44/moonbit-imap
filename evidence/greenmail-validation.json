@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-09-10T15:27:57.210Z",
+  "server": "GreenMail 2.1.13",
+  "artifactSha1": "6c84bc84e76784674d07b294dc4933619de35bba",
+  "transport": "Loopback TCP; TLS tested separately against purpose-built fixture",
+  "results": [
+    {
+      "name": "greeting LOGIN and post-auth CAPABILITY",
+      "passed": true,
+      "capabilities": [
+        "IMAP4REV1",
+        "LITERAL+",
+        "UIDPLUS",
+        "SORT",
+        "IDLE",
+        "MOVE",
+        "SASL-IR",
+        "AUTH=XOAUTH2",
+        "QUOTA"
+      ]
+    },
+    {
+      "name": "modified UTF-7 CREATE and LIST",
+      "passed": true
+    },
+    {
+      "name": "synchronizing APPEND SELECT and STATUS",
+      "passed": true
+    },
+    {
+      "name": "UID SEARCH and body FETCH preserve UTF-8 literal bytes",
+      "passed": true,
+      "bodyBytes": 176
+    },
+    {
+      "name": "UID STORE and COPY accepted by independent server",
+      "passed": true
+    },
+    {
+      "name": "IDLE continuation and DONE",
+      "passed": true
+    },
+    {
+      "name": "EXPUNGE CLOSE RENAME DELETE and LOGOUT",
+      "passed": true
+    }
+  ],
+  "notRun": [
+    {
+      "name": "AUTHENTICATE PLAIN against GreenMail",
+      "reason": "Server does not advertise AUTH=PLAIN",
+      "capabilities": [
+        "IMAP4REV1",
+        "LITERAL+",
+        "UIDPLUS",
+        "SORT",
+        "IDLE",
+        "MOVE",
+        "SASL-IR",
+        "AUTH=XOAUTH2",
+        "QUOTA"
+      ]
+    }
+  ],
+  "passed": 7,
+  "failed": 0
+}

@@ -14,4 +14,4 @@ test "sequence sets reject invalid separators and zero" {
 }
 ```
 
-限制：无 TLS/socket 传输、完整命令集和邮件服务器互操作套件。
+0.3 已新增 TCP/隐式 TLS、APPEND/IDLE/PLAIN 和 GreenMail 互通；仍缺 STARTTLS、完整 FETCH 语义和更多扩展。

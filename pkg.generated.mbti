@@ -6,6 +6,10 @@ import {
 }
 
 // Values
+pub fn decode_mailbox(String) -> String raise ImapError
+
+pub fn encode_mailbox(String) -> String raise ImapError
+
 pub fn valid_sequence_set(String) -> Bool
 
 // Errors
@@ -15,14 +19,11 @@ pub suberror ImapError {
 
 // Types and methods
 pub struct Decoder {
-  mut buffer : Bytes
-  mut head : String
-  literals : Array[Bytes]
-  mut expected : Int
-  mut failed : Bool
+  // private fields
 } derive(@debug.Debug)
 pub fn Decoder::feed(Self, Bytes) -> Array[Response] raise ImapError
 pub fn Decoder::finish(Self) -> Unit raise ImapError
+pub fn Decoder::has_partial(Self) -> Bool
 pub fn Decoder::new() -> Self
 
 pub(all) struct Response {
@@ -31,13 +32,17 @@ pub(all) struct Response {
 } derive(Eq, @debug.Debug)
 
 pub struct Session {
-  mut status : State
-  mut serial : Int
-  mut pending : (String, String)?
-  decoder : Decoder
+  // private fields
 } derive(@debug.Debug)
+pub fn Session::append(Self, String, Int, flags? : String) -> String raise ImapError
+pub fn Session::authenticate_response(Self, String) -> String raise ImapError
+pub fn Session::capabilities(Self) -> Array[String]
 pub fn Session::command(Self, String, Array[String]) -> String raise ImapError
+pub fn Session::done(Self) -> String raise ImapError
 pub fn Session::feed(Self, Bytes) -> Array[Response] raise ImapError
+pub fn Session::finish(Self) -> Unit raise ImapError
+pub fn Session::has_pending(Self) -> Bool
+pub fn Session::literal(Self, Bytes) -> Bytes raise ImapError
 pub fn Session::new() -> Self
 pub fn Session::state(Self) -> State
 

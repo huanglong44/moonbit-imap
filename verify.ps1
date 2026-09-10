@@ -28,6 +28,8 @@ try {
   Copy-Item -LiteralPath $engine.FullName -Destination 'web/engine.mjs' -Force
   node tools/test-demo.mjs
   if ($LASTEXITCODE -ne 0) {throw 'browser engine test failed'}
+  node tools/test-network.mjs
+  if ($LASTEXITCODE -ne 0) {throw 'network client test failed'}
   node tools/test-cli.mjs
   if ($LASTEXITCODE -ne 0) {throw 'CLI test failed'}
   node tools/robustness.mjs

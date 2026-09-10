@@ -1,4 +1,5 @@
 import {
+  "moonbitlang/core/json",
   "localreview/imap" @lib,
   "moonbitlang/core/encoding/utf8",
 }
@@ -8,5 +9,19 @@ supported_targets = "js"
 pkgtype(kind: "executable")
 
 options(
-  link: { "js": { "exports": [ "run" ], "format": "esm" } },
+  link: {
+    "js": {
+      "exports": [
+        "run",
+        "session_open",
+        "session_close",
+        "session_feed",
+        "session_issue",
+        "session_continue",
+        "session_finish",
+        "mailbox_name",
+      ],
+      "format": "esm",
+    },
+  },
 )

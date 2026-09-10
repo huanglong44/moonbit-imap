@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-09-10T15:25:07.671Z",
+  "results": [
+    {
+      "name": "TCP LOGIN, folders, UID search/store/copy, binary APPEND/FETCH and logout",
+      "passed": true
+    },
+    {
+      "name": "PLAIN challenge and IDLE updates/DONE with no command interleaving",
+      "passed": true
+    },
+    {
+      "name": "authentication transport guard and command injection write no credentials",
+      "passed": true
+    },
+    {
+      "name": "timeouts, cancellation, incomplete literals and mismatched completion terminate",
+      "passed": true
+    },
+    {
+      "name": "unsolicited updates remain separate and response count is bounded",
+      "passed": true
+    },
+    {
+      "name": "trusted implicit TLS authentication and binary transfer",
+      "passed": true
+    },
+    {
+      "name": "TLS requires trusted certificate and matching hostname",
+      "passed": true
+    },
+    {
+      "name": "TLS handshake timeout and cancellation release resources",
+      "passed": true
+    }
+  ],
+  "passed": 8,
+  "failed": 0,
+  "scope": "Purpose-built loopback TCP/TLS fixture; not an independent IMAP server",
+  "fullSuiteRun": false
+}

@@ -114,6 +114,10 @@ pub fn session_continue(key : String, kind : String, data : String) -> String {
       "literal" => hex(s.literal(unhex(data)))
       "auth" => hex(@utf8.encode(s.authenticate_response(data)))
       "done" => hex(@utf8.encode(s.done()))
+      "tls" => {
+        s.tls_established()
+        ""
+      }
       _ => raise Failure("unknown continuation kind")
     }
   } catch {

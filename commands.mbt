@@ -89,6 +89,12 @@ fn command_tail(
 ) -> String raise ImapError {
   let authenticated = state == Authenticated || state == Selected
   match command {
+    "STARTTLS" => {
+      if state != NotAuthenticated || !args.is_empty() {
+        raise Invalid("STARTTLS state/arity")
+      }
+      ""
+    }
     "LOGIN" => {
       if state != NotAuthenticated || args.length() != 2 {
         raise Invalid("LOGIN state/arity")

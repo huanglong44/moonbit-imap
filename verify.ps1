@@ -30,6 +30,8 @@ try {
   if ($LASTEXITCODE -ne 0) {throw 'browser engine test failed'}
   node tools/test-network.mjs
   if ($LASTEXITCODE -ne 0) {throw 'network client test failed'}
+  node tools/test-starttls.mjs
+  if ($LASTEXITCODE -ne 0) {throw 'STARTTLS and authentication tests failed'}
   node tools/test-cli.mjs
   if ($LASTEXITCODE -ne 0) {throw 'CLI test failed'}
   node tools/robustness.mjs

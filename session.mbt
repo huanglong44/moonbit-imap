@@ -5,8 +5,10 @@ priv enum Phase {
   AppendReady
   AuthWaiting
   AuthReady
+  AuthCancelled
   IdleWaiting
   IdleActive
+  TlsHandshake
 } derive(Debug, Eq)
 
 ///|
@@ -18,6 +20,7 @@ pub struct Session {
   priv mut literal_size : Int
   priv decoder : Decoder
   priv caps : Array[String]
+  priv mut tls_active : Bool
 } derive(Debug)
 
 ///|
@@ -30,6 +33,7 @@ pub fn Session::new() -> Session {
     literal_size: 0,
     decoder: Decoder::new(),
     caps: [],
+    tls_active: false,
   }
 }
 
@@ -54,10 +58,16 @@ pub fn Session::command(
   command : String,
   args : Array[String],
 ) -> String raise ImapError {
-  if self.status == Greeting || self.status == Closed || self.pending != None {
+  if self.status == Greeting ||
+    self.status == Closed ||
+    self.pending != None ||
+    self.phase == TlsHandshake {
     raise Invalid("session not ready")
   }
   let verb = command.to_upper()
+  if verb == "STARTTLS" && self.tls_active {
+    raise Invalid("TLS is already active")
+  }
   let tail = command_tail(self.status, verb, args)
   if self.serial >= 1000000000 {
     raise Invalid("session command limit")
@@ -136,7 +146,7 @@ pub fn Session::authenticate_response(
       raise Invalid("SASL response padding")
     }
   }
-  self.phase = Normal
+  self.phase = if base64 == "*" { AuthCancelled } else { Normal }
   base64 + "\r\n"
 }
 
@@ -187,8 +197,14 @@ pub fn Session::feed(
     self.pending = None
     self.phase = Normal
   }
+  if self.phase == TlsHandshake && !bytes.is_empty() {
+    raise Invalid("plaintext during TLS handshake")
+  }
   let responses = self.decoder.feed(bytes)
   for r in responses {
+    if self.phase == TlsHandshake {
+      raise Invalid("plaintext after STARTTLS completion")
+    }
     let fields = words(r.line)
     let code = response_word(r.line)
     if self.status == Greeting {
@@ -261,7 +277,14 @@ pub fn Session::feed(
         }
         self.learn_capabilities(r.line)
         self.pending = None
-        self.phase = Normal
+        if cmd == "STARTTLS" && code == "OK" {
+          // Capabilities in the unprotected completion are not trusted after TLS.
+          self.caps.clear()
+          self.phase = TlsHandshake
+          self.decoder.finish()
+        } else {
+          self.phase = Normal
+        }
       }
     }
   }
@@ -275,8 +298,22 @@ pub fn Session::finish(self : Session) -> Unit raise ImapError {
     self.pending = None
   }
   self.decoder.finish()
-  if self.pending != None || self.status == Greeting {
+  if self.pending != None ||
+    self.status == Greeting ||
+    self.phase == TlsHandshake {
     raise Invalid("connection ended before command completion")
   }
   self.status = Closed
+}
+
+///|
+/// The transport must verify the certificate and hostname before calling this method.
+pub fn Session::tls_established(self : Session) -> Unit raise ImapError {
+  if self.status != NotAuthenticated || self.phase != TlsHandshake {
+    raise Invalid("TLS handshake state")
+  }
+  self.decoder.finish()
+  self.tls_active = true
+  self.caps.clear()
+  self.phase = Normal
 }

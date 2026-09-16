@@ -45,6 +45,7 @@ pub fn Session::has_pending(Self) -> Bool
 pub fn Session::literal(Self, Bytes) -> Bytes raise ImapError
 pub fn Session::new() -> Self
 pub fn Session::state(Self) -> State
+pub fn Session::tls_established(Self) -> Unit raise ImapError
 
 pub(all) enum State {
   Greeting

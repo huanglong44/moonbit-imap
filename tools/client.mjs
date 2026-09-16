@@ -16,12 +16,14 @@ export class ImapCommandError extends Error {
 export class ImapClient {
   #key = randomUUID(); #socket; #pending; #closed = false; #state = 'Greeting';
   #caps = []; #timeout; #secure; #allowAuth; #signal; #abort; #onUpdate; #onClose;
+  #tls; #handlers; #upgradeToken;
   constructor(options = {}) {
     const {host = 'localhost', secure = true, port = secure ? 993 : 143, timeout = 10000,
-      signal, tls: tlsOptions = {}, allowInsecureAuth = false, onUpdate, onClose} = options;
+      signal, tls: tlsOptions = {}, allowInsecureAuth = false, onUpdate, onClose, startTls = false} = options;
     if (typeof host !== 'string' || !host || typeof secure !== 'boolean' || !Number.isInteger(port) || port < 1 || port > 65535 || !Number.isInteger(timeout) || timeout < 1 || timeout > 2147483647) throw Error('Invalid host, secure, port or timeout');
     if (onUpdate !== undefined && typeof onUpdate !== 'function') throw Error('onUpdate must be a function');
     if (onClose !== undefined && typeof onClose !== 'function') throw Error('onClose must be a function');
+    if (typeof startTls !== 'boolean' || (startTls && secure)) throw Error('startTls requires secure:false');
     if (signal?.aborted) throw signal.reason instanceof Error ? signal.reason : Error('Aborted');
     this.#timeout = timeout; this.#secure = secure; this.#allowAuth = allowInsecureAuth === true;
     this.#signal = signal; this.#onUpdate = onUpdate; this.#onClose = onClose;
@@ -31,22 +33,35 @@ export class ImapClient {
     try {
       const allowedTls = {};
       for (const field of ['ca', 'cert', 'key', 'passphrase', 'minVersion', 'maxVersion']) if (tlsOptions[field] !== undefined) allowedTls[field] = tlsOptions[field];
-      this.#socket = secure ? tls.connect({...allowedTls, host, port,
+      this.#tls = {...allowedTls, host,
         servername: tlsOptions.servername ?? (net.isIP(host) ? undefined : host),
-        rejectUnauthorized: true, checkServerIdentity: tls.checkServerIdentity}) : net.connect({host, port});
-      this.#socket.on('data', chunk => this.#receive(chunk));
-      this.#socket.on('error', error => this.#fail(error));
-      this.#socket.on('end', () => {
-        try { checked(core.session_finish(this.#key)); } catch (error) { this.#fail(error); return; }
-        this.#fail(Error('Connection ended'));
-      });
-      this.#socket.on('close', () => this.#fail(Error('Connection closed')));
+        rejectUnauthorized: true, checkServerIdentity: tls.checkServerIdentity};
+      this.#socket = secure ? tls.connect({...this.#tls, port}) : net.connect({host, port});
+      this.#bind();
       this.#abort = () => this.#fail(signal.reason instanceof Error ? signal.reason : Error('Aborted'));
       signal?.addEventListener('abort', this.#abort, {once: true});
     } catch (error) { this.#fail(error); }
   }
-  static async connect(options) { const client = new ImapClient(options); await client.greeting; if (client.#closed) throw Error('Connection closed during greeting'); return client; }
+  #bind() {
+    this.#handlers = {
+      data: chunk => this.#receive(chunk),
+      error: error => this.#fail(error),
+      end: () => {
+        try { checked(core.session_finish(this.#key)); } catch (error) { this.#fail(error); return; }
+        this.#fail(Error('Connection ended'));
+      },
+      close: () => this.#fail(Error('Connection closed')),
+    };
+    for (const [event, handler] of Object.entries(this.#handlers)) this.#socket.on(event, handler);
+  }
+  static async connect(options = {}) {
+    const client = new ImapClient(options); await client.greeting;
+    if (client.#closed) throw Error('Connection closed during greeting');
+    if (options.startTls) await client.startTls();
+    return client;
+  }
   get state() { return this.#closed ? 'Closed' : this.#state; }
+  get secure() { return !this.#closed && this.#secure && this.#socket?.authorized === true; }
   get capabilities() { return [...this.#caps]; }
   #arm(pending, duration = this.#timeout) {
     clearTimeout(pending.timer);
@@ -90,7 +105,11 @@ export class ImapClient {
             pending.timer = setTimeout(() => this.#done(pending).catch(() => {}), pending.maxDuration);
             pending.resolveReady({done: () => this.#done(pending), completion: pending.promise});
           } else {
-            const {kind, data} = pending.continuation;
+            const {kind} = pending.continuation;
+            let {data} = pending.continuation;
+            if (kind === 'auth' && response.line !== '+' && response.line !== '+ ') {
+              data = '*'; pending.authError = Error('PLAIN server sent a nonempty challenge');
+            }
             this.#write(Buffer.from(checked(core.session_continue(this.#key, kind, data)), 'hex'));
             pending.continuation = undefined;
           }
@@ -107,7 +126,8 @@ export class ImapClient {
         if (!match || match[1] !== pending.tag) throw Error('Unexpected completion');
         clearTimeout(pending.timer); this.#pending = undefined;
         const result = {ok: match[2].toUpperCase() === 'OK', status: match[2].toUpperCase(), completion: response, responses: pending.responses};
-        if (result.ok) pending.resolve(result); else { const error = new ImapCommandError(result); pending.reject(error); pending.rejectReady?.(error); }
+        if (pending.verb === 'STARTTLS' && result.ok) this.#socket.pause();
+        if (result.ok) pending.resolve(result); else { const error = pending.authError ?? new ImapCommandError(result); pending.reject(error); pending.rejectReady?.(error); }
       }
     } catch (error) { this.#fail(error); }
   }
@@ -116,8 +136,8 @@ export class ImapClient {
     if (pending.bytes > 8388608 || pending.responses.length >= 4096) throw Error('Command response collection limit');
     pending.responses.push(response);
   }
-  #issue(verb, args, continuation) {
-    if (this.#closed || this.#pending) throw Error('Client is closed or a command is pending');
+  #issue(verb, args, continuation, token) {
+    if (this.#closed || this.#pending || (this.#upgradeToken && token !== this.#upgradeToken)) throw Error('Client is closed or a command is pending');
     if (typeof verb !== 'string' || !Array.isArray(args) || !args.every(x => typeof x === 'string') || JSON.stringify(args).length > 65536) throw Error('Invalid command arguments');
     verb = verb.toUpperCase();
     if (['LOGIN', 'AUTHENTICATE'].includes(verb) && !this.#secure && !this.#allowAuth) throw Error('Authentication requires TLS or explicit allowInsecureAuth');
@@ -128,10 +148,41 @@ export class ImapClient {
   }
   async command(verb, args = []) {
     if (typeof verb !== 'string') throw Error('Command must be a string');
-    if (['APPEND', 'AUTHENTICATE', 'IDLE'].includes(verb.toUpperCase())) throw Error('Use append, authenticatePlain or idle for continuation commands');
+    if (['APPEND', 'AUTHENTICATE', 'IDLE', 'STARTTLS'].includes(verb.toUpperCase())) throw Error('Use append, authenticatePlain, idle or startTls for continuation commands');
     return this.#issue(verb, args).promise;
   }
   async capability() { await this.command('CAPABILITY'); return this.capabilities; }
+  async startTls() {
+    if (this.#secure) throw Error('TLS is already active');
+    if (this.#closed || this.#pending || this.#upgradeToken || this.#state !== 'NotAuthenticated') throw Error('STARTTLS requires an idle unauthenticated session');
+    const token = Symbol(); this.#upgradeToken = token;
+    try {
+      await this.#issue('CAPABILITY', [], undefined, token).promise;
+      if (!this.#caps.includes('STARTTLS')) throw Error('Server does not advertise STARTTLS');
+      await this.#issue('STARTTLS', [], undefined, token).promise;
+      if (this.#closed) throw Error('Connection closed during STARTTLS');
+      this.#caps = [];
+      const raw = this.#socket;
+      for (const [event, handler] of Object.entries(this.#handlers)) raw.off(event, handler);
+      const handshake = this.#wait('TLS', null);
+      try {
+        this.#socket = tls.connect({...this.#tls, socket: raw}); this.#bind();
+        this.#socket.once('secureConnect', () => {
+          try {
+            if (this.#closed) return;
+            checked(core.session_continue(this.#key, 'tls', ''));
+            this.#secure = true;
+            this.#pending = undefined; clearTimeout(handshake.timer); handshake.resolve();
+          } catch (error) { this.#fail(error); }
+        });
+        this.#socket.resume();
+      } catch (error) { raw.destroy(); this.#fail(error); }
+      await handshake.promise;
+      await this.#issue('CAPABILITY', [], undefined, token).promise;
+      return this.capabilities;
+    } catch (error) { this.#fail(error); throw error; }
+    finally { this.#upgradeToken = undefined; }
+  }
   async login(user, password) {
     if (this.#caps.includes('LOGINDISABLED')) throw Error('Server disables LOGIN');
     const result = await this.command('LOGIN', [user, password]);
@@ -139,6 +190,7 @@ export class ImapClient {
     return result;
   }
   async authenticatePlain(user, password, authorizationId = '') {
+    if (!this.#secure && !this.#allowAuth) throw Error('Authentication requires TLS or explicit allowInsecureAuth');
     if (!this.#caps.length) await this.capability();
     if (!this.#caps.includes('AUTH=PLAIN')) throw Error('Server does not advertise AUTH=PLAIN');
     if (![user, password, authorizationId].every(x => typeof x === 'string' && !x.includes('\0') && Buffer.byteLength(x) <= 12000)) throw Error('Invalid PLAIN credentials');

@@ -1,0 +1,82 @@
+{
+  "timestamp": "2026-09-16T14:58:51.039Z",
+  "protocol": "IMAP",
+  "node": "v24.11.0",
+  "results": [
+    {
+      "name": "explicit upgrade refreshes capabilities then PLAIN authenticates",
+      "passed": true
+    },
+    {
+      "name": "connect with required upgrade returns only after TLS and permits login",
+      "passed": true
+    },
+    {
+      "name": "untrusted certificates cannot be bypassed by TLS overrides",
+      "passed": true
+    },
+    {
+      "name": "hostname mismatch remains fatal",
+      "passed": true
+    },
+    {
+      "name": "capability stripping closes without authentication fallback",
+      "passed": true
+    },
+    {
+      "name": "explicit refusal closes without authentication fallback",
+      "passed": true
+    },
+    {
+      "name": "upgrade response timeout closes without authentication fallback",
+      "passed": true
+    },
+    {
+      "name": "TLS handshake timeout closes without authentication fallback",
+      "passed": true
+    },
+    {
+      "name": "reject plaintext after successful upgrade: \"* CAPABILITY INJECTED\\r\\n\"",
+      "passed": true
+    },
+    {
+      "name": "reject plaintext after successful upgrade: \"+\"",
+      "passed": true
+    },
+    {
+      "name": "upgrade reserves the session across capability and handshake steps",
+      "passed": true
+    },
+    {
+      "name": "abort during TLS upgrade rejects and releases the session",
+      "passed": true
+    },
+    {
+      "name": "close during upgrade rejects the pending operation",
+      "passed": true
+    },
+    {
+      "name": "raw upgrade and authentication commands cannot bypass safe APIs",
+      "passed": true
+    },
+    {
+      "name": "PLAIN rejection permits explicit retry with login",
+      "passed": true
+    },
+    {
+      "name": "coalesced rejection takes precedence over PLAIN challenge",
+      "passed": true
+    },
+    {
+      "name": "nonempty PLAIN challenge is cancelled without sending credentials",
+      "passed": true
+    }
+  ],
+  "passed": 17,
+  "failed": 0,
+  "independentServer": false,
+  "sourceSha256": {
+    "client": "1204b4e1b72c93841f57368f2625322bb4b34686d16183b066210c7ebd462719",
+    "engine": "90dba25d65396ac0c5e98277c0d42882abaf75ea83b74daac17ea0c3b742f572"
+  }
+}

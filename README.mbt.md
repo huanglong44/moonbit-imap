@@ -14,4 +14,4 @@ test "sequence sets reject invalid separators and zero" {
 }
 ```
 
-0.3 已新增 TCP/隐式 TLS、APPEND/IDLE/PLAIN 和 GreenMail 互通；仍缺 STARTTLS、完整 FETCH 语义和更多扩展。
+0.4 已提供 TCP/隐式 TLS/STARTTLS、APPEND/IDLE/PLAIN 和 Dovecot/GreenMail 互通。核心升级状态用法见 starttls_test.mbt；仍缺完整 FETCH 语义、更多 SASL 和其它扩展。

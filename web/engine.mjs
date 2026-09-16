@@ -620,7 +620,7 @@ function _M0TP211localreview4imap7Decoder(param0, param1, param2, param3, param4
   this.syntax_size = param6;
   this.failed = param7;
 }
-function _M0TP211localreview4imap7Session(param0, param1, param2, param3, param4, param5, param6) {
+function _M0TP211localreview4imap7Session(param0, param1, param2, param3, param4, param5, param6, param7) {
   this.status = param0;
   this.serial = param1;
   this.pending = param2;
@@ -628,6 +628,7 @@ function _M0TP211localreview4imap7Session(param0, param1, param2, param3, param4
   this.literal_size = param4;
   this.decoder = param5;
   this.caps = param6;
+  this.tls_active = param7;
 }
 function _M0DTPC16result6ResultGsRP211localreview4imap9ImapErrorE3Err(param0) {
   this._0 = param0;
@@ -3976,6 +3977,9 @@ function _M0MPC15bytes5Bytes9to__array(self) {
 function _M0MPC15bytes9BytesView9to__array(self) {
   const len = self.end - self.start | 0;
   return _M0MPC15array5Array44unsafe__make__and__blit__from__fixed_2einnerGyE(_M0MPC15bytes9BytesView4data(self), len, len, _M0MPC15bytes9BytesView13start__offset(self), 0);
+}
+function _M0MPC15bytes5Bytes9is__empty(self) {
+  return self.length === 0;
 }
 function _M0MPC15bytes5Bytes16bytes__add__impl(self, other) {
   const len_self = self.length;
@@ -9955,52 +9959,66 @@ function _M0FPC28encoding6base6414decode__scalar(text, ignore_whitespace) {
 function _M0FPC28encoding6base6414decode_2einner(text, ignore_whitespace) {
   return _M0FPC28encoding6base6414decode__scalar(text, ignore_whitespace);
 }
-function _M0IP211localreview4imap5PhasePB2Eq5equal(_x_137, _x_138) {
-  switch (_x_137) {
+function _M0IP211localreview4imap5PhasePB2Eq5equal(_x_138, _x_139) {
+  switch (_x_138) {
     case 0: {
-      if (_x_138 === 0) {
+      if (_x_139 === 0) {
         return true;
       } else {
         return false;
       }
     }
     case 1: {
-      if (_x_138 === 1) {
+      if (_x_139 === 1) {
         return true;
       } else {
         return false;
       }
     }
     case 2: {
-      if (_x_138 === 2) {
+      if (_x_139 === 2) {
         return true;
       } else {
         return false;
       }
     }
     case 3: {
-      if (_x_138 === 3) {
+      if (_x_139 === 3) {
         return true;
       } else {
         return false;
       }
     }
     case 4: {
-      if (_x_138 === 4) {
+      if (_x_139 === 4) {
         return true;
       } else {
         return false;
       }
     }
     case 5: {
-      if (_x_138 === 5) {
+      if (_x_139 === 5) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    case 6: {
+      if (_x_139 === 6) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    case 7: {
+      if (_x_139 === 7) {
         return true;
       } else {
         return false;
       }
     }
     default: {
-      if (_x_138 === 6) {
+      if (_x_139 === 8) {
         return true;
       } else {
         return false;
@@ -10008,32 +10026,32 @@ function _M0IP211localreview4imap5PhasePB2Eq5equal(_x_137, _x_138) {
     }
   }
 }
-function _M0IP211localreview4imap9ImapErrorPC15debug5Debug8to__repr(_x_131) {
-  let _arg_132;
+function _M0IP211localreview4imap9ImapErrorPC15debug5Debug8to__repr(_x_132) {
+  let _arg_133;
   _L: {
-    const _Invalid = _x_131;
-    const _$42$arg_132 = _Invalid._0;
-    _arg_132 = _$42$arg_132;
+    const _Invalid = _x_132;
+    const _$42$arg_133 = _Invalid._0;
+    _arg_133 = _$42$arg_133;
     break _L;
   }
-  return _M0MPC15debug4Repr4ctor("Invalid", [{ _0: undefined, _1: _M0IPC16string6StringPC15debug5Debug8to__repr(_arg_132) }]);
+  return _M0MPC15debug4Repr4ctor("Invalid", [{ _0: undefined, _1: _M0IPC16string6StringPC15debug5Debug8to__repr(_arg_133) }]);
 }
-function _M0IP211localreview4imap9ImapErrorPC15debug5Debug8to__reprGRP211localreview4imap9ImapErrorE(_x_131) {
-  let _arg_132;
+function _M0IP211localreview4imap9ImapErrorPC15debug5Debug8to__reprGRP211localreview4imap9ImapErrorE(_x_132) {
+  let _arg_133;
   _L: {
-    const _Invalid = _x_131;
-    const _$42$arg_132 = _Invalid._0;
-    _arg_132 = _$42$arg_132;
+    const _Invalid = _x_132;
+    const _$42$arg_133 = _Invalid._0;
+    _arg_133 = _$42$arg_133;
     break _L;
   }
-  return _M0MPC15debug4Repr4ctor("Invalid", [{ _0: undefined, _1: _M0IPC16string6StringPC15debug5Debug8to__repr(_arg_132) }]);
+  return _M0MPC15debug4Repr4ctor("Invalid", [{ _0: undefined, _1: _M0IPC16string6StringPC15debug5Debug8to__repr(_arg_133) }]);
 }
-function _M0IP211localreview4imap8ResponsePC15debug5Debug8to__repr(_x_129) {
-  const _bind$2 = [{ _0: "line", _1: _M0IPC16string6StringPC15debug5Debug8to__repr(_x_129.line) }, { _0: "literals", _1: _M0IPC15array5ArrayPC15debug5Debug8to__reprGzE(_x_129.literals) }];
+function _M0IP211localreview4imap8ResponsePC15debug5Debug8to__repr(_x_130) {
+  const _bind$2 = [{ _0: "line", _1: _M0IPC16string6StringPC15debug5Debug8to__repr(_x_130.line) }, { _0: "literals", _1: _M0IPC15array5ArrayPC15debug5Debug8to__reprGzE(_x_130.literals) }];
   return _M0MPC15debug4Repr6record(_M0MPB3Map3MapGsRPC15debug4ReprE(new _M0TPB9ArrayViewGUsRPC15debug4ReprEE(_bind$2, 0, 2), undefined));
 }
-function _M0IP211localreview4imap5StatePC15debug5Debug8to__repr(_x_121) {
-  switch (_x_121) {
+function _M0IP211localreview4imap5StatePC15debug5Debug8to__repr(_x_122) {
+  switch (_x_122) {
     case 0: {
       return _M0MPC15debug4Repr4ctor("Greeting", []);
     }
@@ -10051,38 +10069,38 @@ function _M0IP211localreview4imap5StatePC15debug5Debug8to__repr(_x_121) {
     }
   }
 }
-function _M0IP211localreview4imap5StatePB2Eq5equal(_x_117, _x_118) {
-  switch (_x_117) {
+function _M0IP211localreview4imap5StatePB2Eq5equal(_x_118, _x_119) {
+  switch (_x_118) {
     case 0: {
-      if (_x_118 === 0) {
+      if (_x_119 === 0) {
         return true;
       } else {
         return false;
       }
     }
     case 1: {
-      if (_x_118 === 1) {
+      if (_x_119 === 1) {
         return true;
       } else {
         return false;
       }
     }
     case 2: {
-      if (_x_118 === 2) {
+      if (_x_119 === 2) {
         return true;
       } else {
         return false;
       }
     }
     case 3: {
-      if (_x_118 === 3) {
+      if (_x_119 === 3) {
         return true;
       } else {
         return false;
       }
     }
     default: {
-      if (_x_118 === 4) {
+      if (_x_119 === 4) {
         return true;
       } else {
         return false;
@@ -10177,7 +10195,7 @@ function _M0MP211localreview4imap7Decoder3new() {
   return new _M0TP211localreview4imap7Decoder([], [], [], [], -1, 0, 0, false);
 }
 function _M0MP211localreview4imap7Session3new() {
-  return new _M0TP211localreview4imap7Session(0, 0, undefined, 0, 0, _M0MP211localreview4imap7Decoder3new(), []);
+  return new _M0TP211localreview4imap7Session(0, 0, undefined, 0, 0, _M0MP211localreview4imap7Decoder3new(), [], false);
 }
 function _M0MP211localreview4imap7Session5state(self) {
   return self.status;
@@ -10319,6 +10337,12 @@ function _M0FP211localreview4imap13command__tail(state, command, args) {
               _L$7: {
                 _L$8: {
                   switch (command) {
+                    case "STARTTLS": {
+                      if (_M0IP016_24default__implPB2Eq10not__equalGRP211localreview4imap5StateE(state, 1) || !_M0MPC15array5Array9is__emptyGzE(args)) {
+                        return new _M0DTPC16result6ResultGsRP211localreview4imap9ImapErrorE3Err(new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("STARTTLS state/arity"));
+                      }
+                      return new _M0DTPC16result6ResultGsRP211localreview4imap9ImapErrorE2Ok("");
+                    }
                     case "LOGIN": {
                       if (_M0IP016_24default__implPB2Eq10not__equalGRP211localreview4imap5StateE(state, 1) || args.length !== 2) {
                         return new _M0DTPC16result6ResultGsRP211localreview4imap9ImapErrorE3Err(new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("LOGIN state/arity"));
@@ -10603,10 +10627,13 @@ function _M0FP211localreview4imap13command__tail(state, command, args) {
   return new _M0DTPC16result6ResultGsRP211localreview4imap9ImapErrorE2Ok("");
 }
 function _M0MP211localreview4imap7Session7command(self, command, args) {
-  if (_M0IP211localreview4imap5StatePB2Eq5equal(self.status, 0) || (_M0IP211localreview4imap5StatePB2Eq5equal(self.status, 4) || _M0IP016_24default__implPB2Eq10not__equalGOUssEE(self.pending, undefined))) {
+  if (_M0IP211localreview4imap5StatePB2Eq5equal(self.status, 0) || (_M0IP211localreview4imap5StatePB2Eq5equal(self.status, 4) || (_M0IP016_24default__implPB2Eq10not__equalGOUssEE(self.pending, undefined) || _M0IP211localreview4imap5PhasePB2Eq5equal(self.phase, 8)))) {
     return new _M0DTPC16result6ResultGsRP211localreview4imap9ImapErrorE3Err(new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("session not ready"));
   }
   const verb = _M0MPC16string6String9to__upper(command);
+  if (verb === "STARTTLS" && self.tls_active) {
+    return new _M0DTPC16result6ResultGsRP211localreview4imap9ImapErrorE3Err(new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("TLS is already active"));
+  }
   const _bind$2 = _M0FP211localreview4imap13command__tail(self.status, verb, args);
   let tail;
   if (_bind$2.$tag === 1) {
@@ -10632,7 +10659,7 @@ function _M0MP211localreview4imap7Session7command(self, command, args) {
       break;
     }
     case "IDLE": {
-      _tmp = 5;
+      _tmp = 6;
       break;
     }
     default: {
@@ -10724,11 +10751,11 @@ function _M0MP211localreview4imap7Session22authenticate__response(self, base64) 
       return new _M0DTPC16result6ResultGsRP211localreview4imap9ImapErrorE3Err(new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("SASL response padding"));
     }
   }
-  self.phase = 0;
+  self.phase = base64 === "*" ? 5 : 0;
   return new _M0DTPC16result6ResultGsRP211localreview4imap9ImapErrorE2Ok(`${base64}\r\n`);
 }
 function _M0MP211localreview4imap7Session4done(self) {
-  if (_M0IP211localreview4imap5StatePB2Eq5equal(self.status, 4) || _M0IP016_24default__implPB2Eq10not__equalGRP211localreview4imap5PhaseE(self.phase, 6)) {
+  if (_M0IP211localreview4imap5StatePB2Eq5equal(self.status, 4) || _M0IP016_24default__implPB2Eq10not__equalGRP211localreview4imap5PhaseE(self.phase, 7)) {
     return new _M0DTPC16result6ResultGsRP211localreview4imap9ImapErrorE3Err(new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("IDLE is not active"));
   }
   self.phase = 0;
@@ -11017,12 +11044,27 @@ function _M0MP211localreview4imap7Decoder4feed(self, bytes) {
   self.failed = true;
   return new _M0DTPC16result6ResultGRPB5ArrayGRP211localreview4imap8ResponseERP211localreview4imap9ImapErrorE3Err(_err);
 }
+function _M0MP211localreview4imap7Decoder12has__partial(self) {
+  return self.expected >= 0 || (!_M0MPC15array5Array9is__emptyGyE(self.line) || !_M0MPC15array5Array9is__emptyGzE(self.segments));
+}
+function _M0MP211localreview4imap7Decoder6finish(self) {
+  if (self.failed || _M0MP211localreview4imap7Decoder12has__partial(self)) {
+    self.failed = true;
+    return new _M0DTPC16result6ResultGuRP211localreview4imap9ImapErrorE3Err(new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("truncated stream"));
+  } else {
+    return new _M0DTPC16result6ResultGuRP211localreview4imap9ImapErrorE2Ok(undefined);
+  }
+}
 function _M0MP211localreview4imap7Session4feed(self, bytes) {
   if (_M0IP211localreview4imap5StatePB2Eq5equal(self.status, 4) && _M0IPC16option6OptionPB2Eq5equalGUssEE(self.pending, undefined)) {
     return new _M0DTPC16result6ResultGRPB5ArrayGRP211localreview4imap8ResponseERP211localreview4imap9ImapErrorE3Err(new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("session closed"));
   }
   let _err;
   _L: {
+    if (_M0IP211localreview4imap5PhasePB2Eq5equal(self.phase, 8) && !_M0MPC15bytes5Bytes9is__empty(bytes)) {
+      _err = new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("plaintext during TLS handshake");
+      break _L;
+    }
     const _bind$2 = _M0MP211localreview4imap7Decoder4feed(self.decoder, bytes);
     let responses;
     if (_bind$2.$tag === 1) {
@@ -11040,6 +11082,10 @@ function _M0MP211localreview4imap7Session4feed(self, bytes) {
       if (_ < _bind$3) {
         const r = responses[_];
         _L$2: {
+          if (_M0IP211localreview4imap5PhasePB2Eq5equal(self.phase, 8)) {
+            _err = new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("plaintext after STARTTLS completion");
+            break _L;
+          }
           const fields = _M0FP211localreview4imap5words(r.line);
           const code = _M0FP211localreview4imap14response__word(r.line);
           if (_M0IP211localreview4imap5StatePB2Eq5equal(self.status, 0)) {
@@ -11126,8 +11172,8 @@ function _M0MP211localreview4imap7Session4feed(self, bytes) {
                 _tmp$4 = 4;
                 break;
               }
-              case 5: {
-                _tmp$4 = 6;
+              case 6: {
+                _tmp$4 = 7;
                 break;
               }
               default: {
@@ -11184,7 +11230,21 @@ function _M0MP211localreview4imap7Session4feed(self, bytes) {
           }
           _M0MP211localreview4imap7Session19learn__capabilities(self, r.line);
           self.pending = undefined;
-          self.phase = 0;
+          if (cmd === "STARTTLS" && code === "OK") {
+            _M0MPC15array5Array5clearGsE(self.caps);
+            self.phase = 8;
+            const _bind$5 = _M0MP211localreview4imap7Decoder6finish(self.decoder);
+            if (_bind$5.$tag === 1) {
+              const _ok = _bind$5;
+              _ok._0;
+            } else {
+              const _err$2 = _bind$5;
+              _err = _err$2._0;
+              break _L;
+            }
+          } else {
+            self.phase = 0;
+          }
           break _L$2;
         }
         _tmp = _ + 1 | 0;
@@ -11200,17 +11260,6 @@ function _M0MP211localreview4imap7Session4feed(self, bytes) {
   self.phase = 0;
   return new _M0DTPC16result6ResultGRPB5ArrayGRP211localreview4imap8ResponseERP211localreview4imap9ImapErrorE3Err(_err);
 }
-function _M0MP211localreview4imap7Decoder12has__partial(self) {
-  return self.expected >= 0 || (!_M0MPC15array5Array9is__emptyGyE(self.line) || !_M0MPC15array5Array9is__emptyGzE(self.segments));
-}
-function _M0MP211localreview4imap7Decoder6finish(self) {
-  if (self.failed || _M0MP211localreview4imap7Decoder12has__partial(self)) {
-    self.failed = true;
-    return new _M0DTPC16result6ResultGuRP211localreview4imap9ImapErrorE3Err(new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("truncated stream"));
-  } else {
-    return new _M0DTPC16result6ResultGuRP211localreview4imap9ImapErrorE2Ok(undefined);
-  }
-}
 function _M0MP211localreview4imap7Session6finish(self) {
   let _err;
   _L: {
@@ -11223,7 +11272,7 @@ function _M0MP211localreview4imap7Session6finish(self) {
       _err = _err$2._0;
       break _L;
     }
-    if (_M0IP016_24default__implPB2Eq10not__equalGOUssEE(self.pending, undefined) || _M0IP211localreview4imap5StatePB2Eq5equal(self.status, 0)) {
+    if (_M0IP016_24default__implPB2Eq10not__equalGOUssEE(self.pending, undefined) || (_M0IP211localreview4imap5StatePB2Eq5equal(self.status, 0) || _M0IP211localreview4imap5PhasePB2Eq5equal(self.phase, 8))) {
       _err = new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("connection ended before command completion");
       break _L;
     }
@@ -11233,6 +11282,22 @@ function _M0MP211localreview4imap7Session6finish(self) {
   self.status = 4;
   self.pending = undefined;
   return new _M0DTPC16result6ResultGuRP211localreview4imap9ImapErrorE3Err(_err);
+}
+function _M0MP211localreview4imap7Session16tls__established(self) {
+  if (_M0IP016_24default__implPB2Eq10not__equalGRP211localreview4imap5StateE(self.status, 1) || _M0IP016_24default__implPB2Eq10not__equalGRP211localreview4imap5PhaseE(self.phase, 8)) {
+    return new _M0DTPC16result6ResultGuRP211localreview4imap9ImapErrorE3Err(new _M0DTPC15error5Error40localreview_2fimap_2eImapError_2eInvalid("TLS handshake state"));
+  }
+  const _bind$2 = _M0MP211localreview4imap7Decoder6finish(self.decoder);
+  if (_bind$2.$tag === 1) {
+    const _ok = _bind$2;
+    _ok._0;
+  } else {
+    return _bind$2;
+  }
+  self.tls_active = true;
+  _M0MPC15array5Array5clearGsE(self.caps);
+  self.phase = 0;
+  return new _M0DTPC16result6ResultGuRP211localreview4imap9ImapErrorE2Ok(undefined);
 }
 function _M0FP211localreview4imap14flush__mailbox(bytes, out) {
   if (!_M0MPC15array5Array9is__emptyGyE(bytes)) {
@@ -11723,6 +11788,18 @@ function _M0FP411localreview4imap3cmd3web17session__continue(key, kind, data) {
           break _L;
         }
         return _M0FP411localreview4imap3cmd3web3hex(_M0FPC28encoding4utf814encode_2einner(new _M0TPC16string10StringView(_bind$8, 0, _bind$8.length), false));
+      }
+      case "tls": {
+        const _bind$9 = _M0MP211localreview4imap7Session16tls__established(s);
+        if (_bind$9.$tag === 1) {
+          const _ok = _bind$9;
+          _ok._0;
+        } else {
+          const _err = _bind$9;
+          _try_err = _err._0;
+          break _L;
+        }
+        return "";
       }
       default: {
         _try_err = new _M0DTPC15error5Error48moonbitlang_2fcore_2fbuiltin_2eFailure_2eFailure("unknown continuation kind");

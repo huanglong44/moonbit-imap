@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-09-16T14:58:52.718Z",
+  "protocol": "IMAP",
+  "server": "2.4.2 (0962ed2104)",
+  "environment": "Windows Node client to isolated WSL Linux Dovecot",
+  "node": "v24.11.0",
+  "transport": "TCP upgraded to verified TLS; loopback only",
+  "packages": {
+    "liblua5.4-0_5.4.8-1build1_amd64.deb": "ff589ea3f181b89dd76b0240f79c59ac2f13f24e2053f624f774f596c7ef7897",
+    "libicu78_78.2-2ubuntu1_amd64.deb": "c8b97930f9e365d6d00978144b468ac8397ef07d2fb2c453869f05fc3a98c4ca",
+    "libexttextcat-2.0-0_3.4.7-2_amd64.deb": "91c7e47fe566008ae4e262e46867a40b17b1478a76d0b1b2b446382848332cbf",
+    "dovecot-sieve_1%3a2.4.2+dfsg1-3ubuntu2.1_amd64.deb": "ca008e4fd526e38b56a9c4634d7f279bbdbc41e5b46657be7b7ac94f7d322607",
+    "libpcre2-32-0_10.46-1build1_amd64.deb": "a385713732a7411d39ba5c057f8e5727d0cdf3bf8afa36cbe1104c66ae2acd5b",
+    "dovecot-pop3d_1%3a2.4.2+dfsg1-3ubuntu2.1_amd64.deb": "4d0c7a603149c65c066494b23f76eb6fde7540e0413e79e1b6f9498547117ab9",
+    "dovecot-imapd_1%3a2.4.2+dfsg1-3ubuntu2.1_amd64.deb": "3e21abfb196f92a7cf5c25704845ad51fb9e8b2d51e00dc327380871f397fb0d",
+    "dovecot-core_1%3a2.4.2+dfsg1-3ubuntu2.1_amd64.deb": "ba2df47ec747e0fdbd2c6bd5f75fbbc4748ead97ee8facd97913c1905130d5a0"
+  },
+  "results": [
+    {
+      "name": "independent greeting advertises TLS upgrade",
+      "passed": true
+    },
+    {
+      "name": "verified TLS upgrade refreshes capabilities",
+      "passed": true
+    },
+    {
+      "name": "PLAIN authenticates against Dovecot",
+      "passed": true
+    },
+    {
+      "name": "SELECT and FETCH preserve independent message bytes",
+      "passed": true
+    },
+    {
+      "name": "CREATE APPEND SEARCH COPY and STATUS round trip",
+      "passed": true
+    },
+    {
+      "name": "IDLE DONE STORE EXPUNGE CLOSE and DELETE",
+      "passed": true
+    },
+    {
+      "name": "required upgrade and LOGIN support reconnect",
+      "passed": true
+    },
+    {
+      "name": "wrong password is rejected and explicit retry succeeds",
+      "passed": true
+    },
+    {
+      "name": "independent certificate fails without explicit trust",
+      "passed": true
+    }
+  ],
+  "passed": 9,
+  "failed": 0,
+  "sourceSha256": {
+    "client": "1204b4e1b72c93841f57368f2625322bb4b34686d16183b066210c7ebd462719",
+    "engine": "90dba25d65396ac0c5e98277c0d42882abaf75ea83b74daac17ea0c3b742f572",
+    "harness": "8ed02724058a006e2a62306f390a177de6edab400406ef3b479af2ca853d35e6"
+  }
+}

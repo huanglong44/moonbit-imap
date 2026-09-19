@@ -1,4 +1,4 @@
-name = "localreview/imap"
+name = "huanglong44/imap"
 
 version = "0.4.0"
 

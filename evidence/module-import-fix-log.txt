@@ -1,0 +1,20 @@
+$ C:\Users\uiwcv\Documents\Codex\2026-09-10\ban\work\moon\bin\moon.exe info
+Finished. moon: ran 4 tasks, now up to date
+
+$ C:\Users\uiwcv\Documents\Codex\2026-09-10\ban\work\moon\bin\moon.exe check --deny-warn
+Finished. moon: ran 4 tasks, now up to date
+
+$ C:\Users\uiwcv\Documents\Codex\2026-09-10\ban\work\moon\bin\moon.exe build --target js --deny-warn
+Finished. moon: ran 5 tasks, now up to date
+
+$ C:\Users\uiwcv\Documents\Codex\2026-09-10\ban\work\moon\bin\moon.exe run cmd/main
+[
+  {
+    line: "* 1 FETCH (BODY[] {5}\n)",
+    literals: [<Bytes: [0x68, 0x65, 0x6c, 0x6c, 0x6f]>],
+  },
+  { line: "A1 OK completed", literals: [] },
+]
+
+$ node tools/test-demo.mjs
+imap: independent browser engine passed

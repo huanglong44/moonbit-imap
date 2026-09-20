@@ -1,5 +1,7 @@
 # IMAP4 会话与客户端
 
+> 2026-09-21 本地构建修复：命令包 import 已同步到当前 moon.mod 模块名；moon info/check、JS 构建、MoonBit 示例和 Node 引擎示例通过。算法未改，本轮未重跑历史全部行为/性能套件。当前提交指纹见 evidence/module-import-fix.json。
+
 本地开发版 **0.4.0**。MoonBit 负责精确字节解析、命令校验、会话与 continuation 状态；Node.js 宿主提供 TCP、隐式 TLS、STARTTLS、超时、取消和异步命令入口。仍在完善，未上传或发布。
 
 ## 真实客户端使用

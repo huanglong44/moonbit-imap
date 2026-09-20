@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "localreview/imap"
+package "huanglong44/imap"
 
 import {
   "moonbitlang/core/debug",

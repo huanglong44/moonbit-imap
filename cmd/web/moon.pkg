@@ -1,6 +1,6 @@
 import {
   "moonbitlang/core/json",
-  "localreview/imap" @lib,
+  "huanglong44/imap" @lib,
   "moonbitlang/core/encoding/utf8",
 }
 

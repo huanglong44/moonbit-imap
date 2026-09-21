@@ -1,6 +1,14 @@
 # IMAP4 会话与客户端
 
-本地开发版 **0.4.0**。MoonBit 负责精确字节解析、命令校验、会话与 continuation 状态；Node.js 宿主提供 TCP、隐式 TLS、STARTTLS、超时、取消和异步命令入口。仍在完善，未上传或发布。
+## 获取与验证入口
+
+公开源码：[github.com/huanglong44/moonbit-imap](https://github.com/huanglong44/moonbit-imap)；MoonBit 模块名为 `huanglong44/imap`。
+
+从源码运行：`git clone https://github.com/huanglong44/moonbit-imap.git` 后进入该目录，按下文和 [TESTING.md](TESTING.md) 安装所需工具。仓库公开不等于已在 Mooncakes 发布，不承诺 `moon add` 当前可用。
+
+查看 [GitHub Actions](https://github.com/huanglong44/moonbit-imap/actions) 时请核对 run 的 commit SHA；历史 evidence、旧 ZIP 与本地测试不能替代当前提交的 CI 结果。下文保留各版本的验证范围和兼容性限制。
+
+> 历史开发记录（以下发布/归档状态不代表当前仓库；当前入口见文首）：本地开发版 **0.4.0**。MoonBit 负责精确字节解析、命令校验、会话与 continuation 状态；Node.js 宿主提供 TCP、隐式 TLS、STARTTLS、超时、取消和异步命令入口。仍在完善，未上传或发布。
 
 ## 真实客户端使用
 
@@ -100,8 +108,8 @@ node tools/cli.mjs --file sample.txt --json
 
 ## 来源与本地审查
 
-依据 [RFC 3501](https://www.rfc-editor.org/rfc/rfc3501)、[RFC 2177](https://www.rfc-editor.org/rfc/rfc2177)、[RFC 2595](https://www.rfc-editor.org/rfc/rfc2595) 和 [RFC 4616](https://www.rfc-editor.org/rfc/rfc4616) 原创实现，对照 [go-imap 客户端能力](https://pkg.go.dev/github.com/emersion/go-imap/v2/imapclient)。Dovecot/GreenMail 是独立验证依赖，其源码和二进制未随本仓库分发，适配器为原创。源码 MIT；`localreview/imap` 仅为本地命名空间。
+依据 [RFC 3501](https://www.rfc-editor.org/rfc/rfc3501)、[RFC 2177](https://www.rfc-editor.org/rfc/rfc2177)、[RFC 2595](https://www.rfc-editor.org/rfc/rfc2595) 和 [RFC 4616](https://www.rfc-editor.org/rfc/rfc4616) 原创实现，对照 [go-imap 客户端能力](https://pkg.go.dev/github.com/emersion/go-imap/v2/imapclient)。Dovecot/GreenMail 是独立验证依赖，其源码和二进制未随本仓库分发，适配器为原创。源码 MIT；`huanglong44/imap` 仅为本地命名空间。
 
-本目录是独立 Git 主仓库。旧 ZIP/bundle 和合集清单保留原审查快照，本次未重打包；没有 Git remote，也没有公开部署或比赛验收结论。
+> 历史开发记录（以下发布/归档状态不代表当前仓库；当前入口见文首）：本目录是独立 Git 主仓库。旧 ZIP/bundle 和合集清单保留原审查快照，本次未重打包；没有 Git remote，也没有公开部署或比赛验收结论。
 
 0.4 核心测试包含之前的 literal 预算修补及新增 TLS 状态测试；旧报告仍保留原日期和范围。

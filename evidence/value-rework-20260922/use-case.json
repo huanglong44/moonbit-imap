@@ -1,0 +1,60 @@
+{
+  "date": "2026-09-22",
+  "command": "node examples/run-use-case.mjs",
+  "passed": true,
+  "scope": "离线合成报文；不是邮件同步客户端整体验收。",
+  "actualUsersProven": false,
+  "externalServicesContacted": false,
+  "sourceSha256": {
+    "commands.mbt": "8f1c1a86690894356ec17572312fbdd54a889e688561ed65ffce082101eb67a1",
+    "core_test.mbt": "16cb1b6a92dfe69aa0a01049fb8f793c8c2836bb10c7d6e9c88b6e3c634353a8",
+    "decoder.mbt": "8e2ca3c694ac714c9b72c714f5610bab2416d7b8b4ade947dac08e83c98e568d",
+    "mailbox.mbt": "8f37abcce24fbcdb46fdf8ad5405f6f3f4f76df7e30ccef488f125f3868811e4",
+    "moon.mod": "c8e22bba432316a3a46a3875d4c20fa1f3744fb67b114dc2b73301ad17f0063d",
+    "moon.pkg": "f5591e0141dfeeefb69bc00711dc503c852e34e67496380bda5742307dcc03d9",
+    "pkg.generated.mbti": "5351903d781085fdb6c5b55b66ec45a1f85b169d646d3c0d1693803e97b2d9a8",
+    "protocol.mbt": "81b8acc435d759ee1182899e5cc890c26bf292a53c2b3815296e2e9b487b2a1c",
+    "session.mbt": "ba64f32f06a45d3bb2375f94552130bed3838dc5ca0cc475be488ba7a719b0cd",
+    "session_test.mbt": "896e1c9787b67d143e7be0759cf28dce7cb2796295411479d8f97fbc272a2952",
+    "starttls_test.mbt": "3bc5f44413f65129a04bb84e2a18d86c8d51e1bc92e43b3291b12fc3b6ae1ba7",
+    "usability.mbt": "0f7a6b95038c312c4271ffc5bfbec2a5602896074a23a723e27186692e5a5814",
+    "examples/run-use-case.mjs": "359ea34b13ee185b6cae0536da5e25bb56bfc51d2e5dd166c304b1684003a3bb",
+    "examples/use-case.json": "74012c8d92f890e61b4924df07153168d7b631c35f3820ca2f44e3a1c7fc2b6b",
+    "tools/benchmark.mjs": "53ac611536ba7cb3732017d22976ff8f38dbd9e7aa579c2469eab75b0cdc7216",
+    "tools/cli.mjs": "f98839799f2896c92a75e6565add432efe166f00bc3fed89e03d6d59eca688d4",
+    "tools/client.mjs": "1204b4e1b72c93841f57368f2625322bb4b34686d16183b066210c7ebd462719",
+    "tools/robustness.mjs": "24964a078897dccc448ba3d5db4c08f6446d38008424987bf26b4b6f042a21d6",
+    "tools/test-cli.mjs": "b1acaf8992e16d37e1527fd60beeea275ce0df574a9622ab3b44d86dcaf08b03",
+    "tools/test-demo.mjs": "02ec6337b9c72c299450db6f0d2b024fd4fd96193d17e5cd501c3a8e6eb87188",
+    "tools/test-dovecot.mjs": "37aaeadfab882401e51feb94e2c0d8b6f6b32185359704c9642451b4bf229b92",
+    "tools/test-greenmail.mjs": "8257f20d8334a3af2ffa7d4cff173d9cb8fad4215db9d51eb81b0c4889040ba5",
+    "tools/test-network.mjs": "f59cde82e01f77b0c5e6700246061200e0924e9f32b948f52ffc48f36cc4869b",
+    "tools/test-starttls.mjs": "83bacfe74f76c437ca2f91f8c8f86849c09a988ddd88c08fa0a8bd0fdb7f5900",
+    "web/app.mjs": "12a0cf3565b6298e2e3760355ec5da3fed88870be604b7f6e1a2f57d7334578d",
+    "web/config.mjs": "7acdf4c02f3e2a0a1b89d21084b4a18ef18fe6554328d75915bee5b1c7974096",
+    "web/engine.mjs": "26d8674d13e4501c90988b678dc94b6f7d524a2d2959e6e84e2fb7147be92aea",
+    "examples/use-case/fetch.txt": "8b9aa4840a0f460ed2ae410dd0fed308a01de8b2a562ca216ba5c4bbec08f7c4",
+    "cmd/main/main.mbt": "44b985afbd7e32055028a9f28469c328828755f85e41357bbfa7c6143dbf3b47",
+    "cmd/main/moon.pkg": "8a94dbdcc61f71104daf4704ed9183813e405ac16e5f9df37bab3962fd9fd4e0",
+    "cmd/main/pkg.generated.mbti": "e3e8f893c3842473203d495428f52438a92ba501159e67c456a1d99a82d13195",
+    "cmd/web/main.mbt": "85af6b817ade4a199db4da26572a6698e10507297f2686f9089fd0987eac0a4b",
+    "cmd/web/moon.pkg": "7197f96ccd91bded04038e31f718387c627a7ccd783a24236a02350c35fae377",
+    "cmd/web/session.mbt": "1915d0ddfee497a20ad29b9105da2af1009170478ce6c747ccfdc1579d156e14"
+  },
+  "outputs": [
+    {
+      "file": "step-1.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "step-1.stdout.txt",
+      "bytes": 457,
+      "sha256": "9aa353f017224013e701eead032830bda458498873a19e1c1ef03323deae13c1"
+    }
+  ],
+  "additionalChecks": null,
+  "previousCoreValidation": "evidence/innovation-review-20260922/results.json",
+  "note": "New sample execution only; earlier core/reference checks retain their original scope. Command output logs replace the machine-specific temporary directory with {output}; output hashes refer to original bytes.",
+  "sourceHashBasis": "Git-normalized blobs in the delivered source archive. Protocol fixtures are explicitly -text to preserve CRLF; ordinary source line endings normalize to LF."
+}

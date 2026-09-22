@@ -1,3 +1,5 @@
+> 2026-09-22 三份初审反馈后的当前判断：**条件复审**。尚无完整同步调度或多服务商生产验证；离线报文和本地 peer 只能证明相应层。 本次差异说明：承认 SMTP/MIME 生态已有 MoonMailKit、moonmail、MoonMIME。这里是 IMAP 同步会话层，和邮件文本解析、POP3 UIDL 备份不同。 以下保留之前检索的固定提交与来源；此前“补足场景”不能理解为本次已解除价值异议。
+
 # imap 查重与定位 · 2026-09-22
 
 承认 SMTP/MIME 生态已有 MoonMailKit、moonmail、MoonMIME。这里是 IMAP 同步会话层，和邮件文本解析、POP3 UIDL 备份不同。 检索原始响应在总交付包的创新性复核目录保存。

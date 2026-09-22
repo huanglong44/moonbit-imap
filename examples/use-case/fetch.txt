@@ -1,0 +1,5 @@
+* 1 FETCH (UID 42 BODY[] {18}
+Subject: demo
+
+x)
+A1 OK FETCH completed

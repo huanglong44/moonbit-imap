@@ -1,0 +1,17 @@
+{
+  "project": "imap",
+  "title": "IMAP UID 与 literal 邮件会话客户端",
+  "module": "huanglong44/imap",
+  "version": "0.4.0",
+  "repository": "https://github.com/huanglong44/moonbit-imap",
+  "status": "条件复审",
+  "remainingRisk": "尚无完整同步调度或多服务商生产验证；离线报文和本地 peer 只能证明相应层。",
+  "actualUsersClaimed": false,
+  "anonymousCloneVerified": true,
+  "publicHead": "4462b16b3a813a8011b397122b145027e8570880",
+  "defaultBranch": "origin/main",
+  "localChangesPublished": false,
+  "proposalLines": 25,
+  "useCase": "读取带 literal 的 UID FETCH 报文",
+  "diff": "承认 SMTP/MIME 生态已有 MoonMailKit、moonmail、MoonMIME。这里是 IMAP 同步会话层，和邮件文本解析、POP3 UIDL 备份不同。"
+}

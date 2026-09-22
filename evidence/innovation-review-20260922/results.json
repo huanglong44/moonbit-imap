@@ -1,0 +1,56 @@
+{
+  "date": "2026-09-22",
+  "project": "imap",
+  "package": "huanglong44/imap",
+  "version": "0.4.0",
+  "code_base_commit_before_materials": "e010470ad2c45f066eed632e10a347853c445da8",
+  "core_checks": [
+    {
+      "command": [
+        "moon",
+        "test",
+        "--target",
+        "js"
+      ],
+      "exit": 0,
+      "seconds": 1.88,
+      "log": "imap-test---target-js.log"
+    },
+    {
+      "command": [
+        "moon",
+        "test",
+        "--target",
+        "wasm-gc"
+      ],
+      "exit": 0,
+      "seconds": 1.9,
+      "log": "imap-test---target-wasm-gc.log"
+    },
+    {
+      "command": [
+        "moon",
+        "build",
+        "--target",
+        "js"
+      ],
+      "exit": 0,
+      "seconds": 1.14,
+      "log": "imap-build---target-js.log"
+    }
+  ],
+  "workflow_checks": [
+    {
+      "command": [
+        "node",
+        "tools/test-network.mjs"
+      ],
+      "exit": 0,
+      "seconds": 1.43,
+      "log": "imap-workflow-0.log"
+    }
+  ],
+  "interpretation": "本轮真实回环连接的命令、literal、IDLE 与错误路径验证通过；实际 API 和旧服务器对照范围见 README/TESTING。",
+  "limit": "未实现完整邮件应用或所有 IMAP 扩展；本轮本机 peer 测试不是所有真实邮箱服务商的验收。",
+  "remote_push_performed": false
+}

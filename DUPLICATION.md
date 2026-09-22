@@ -17,3 +17,7 @@ MoonBit 与宿主分工：MoonBit 实现字节解析、命令校验、会话和 
 检索覆盖 Mooncakes 官方关键词/别名、GitHub 仓库查询、GitLink 公开索引、直接来源文档；没有完整赛事报名表、私有仓库、未公开分支或 GitHub 全代码索引。GitLink 索引也不完整。未找到同范围项目不等于生态空白；已有相关项目不自动等于无独立贡献。完整查询和固定提交快照在总交付目录 innovation-review-20260922/。
 
 初次复核风险为“待补场景”。本次补足差异和可复现工作流，没有自行将重叠归零，也不替评委作创新性认定。最终公开代码与表单附件须使用一致版本。
+
+## 来源直达
+
+[IMAP RFC3501](https://www.rfc-editor.org/rfc/rfc3501)、[go-imap 客户端](https://pkg.go.dev/github.com/emersion/go-imap/v2/imapclient)。这些是既有规范/实现的来源；具体固定版本、适配与运行范围见 [完整说明](README-BEFORE-VALUE-REWORK.md) 和仓库验证记录。链接存在不代表本轮重新运行了对方实现，也不构成赛事无重复证明。

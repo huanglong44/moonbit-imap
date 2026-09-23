@@ -55,3 +55,5 @@ try {
 IMAP 是既有协议，已有 go-imap 等成熟实现，MoonBit 邮件生态也有 SMTP/MIME 库。本项目不声称生态空白；新增价值限于可供 MoonBit 字节/会话核心调用方复用的 Node 只读流程与可检验的失败边界，Node I/O 不称为 MoonBit 原生网络栈。详见 [DUPLICATION](DUPLICATION.md)。
 
 针对“完整性、真实场景表述与证据不一致”，已重写 [申报草稿](PROPOSAL.md) 和 [复核回应](REVIEW-RESPONSE.md)，并保存 [此前材料](docs/before-uid-snapshot/README.md)。对接团队需要让报名表、公开仓库和附件指向同一版本；本地整改不等于初审通过。
+
+CI固定的编译器与标准库版本见 [TOOLCHAIN.md](TOOLCHAIN.md)；升级时需同时核对生成产物。

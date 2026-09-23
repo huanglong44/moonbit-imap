@@ -1,14 +1,12 @@
 {
-  "title": "读取带 literal 的 UID FETCH 报文",
-  "scope": "离线合成报文；不是邮件同步客户端整体验收。",
+  "title": "独立GreenMail只读UID原始邮件导出",
+  "scope": "需要Java21+及GREENMAIL_JAR；本地独立服务器/合成输入，不是真实用户邮箱",
   "steps": [
     {
       "args": [
-        "tools/cli.mjs",
-        "--file",
-        "examples/use-case/fetch.txt"
+        "examples/run-uid-snapshot.mjs"
       ]
     }
   ],
-  "expected": "保留 UID 42、18 字节 literal 和 tagged completion；底层 TCP/TLS/IDLE 的证据另列。"
+  "expected": "stdout打印新的导出目录；两封.eml逐字节一致、仍未读、重复哈希一致；manifest包含UIDVALIDITY，atomic为false"
 }

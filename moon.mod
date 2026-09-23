@@ -1,6 +1,6 @@
 name = "huanglong44/imap"
 
-version = "0.4.0"
+version = "0.5.0"
 
 license = "MIT"
 
@@ -8,4 +8,4 @@ readme = "README.md"
 
 repository = "https://github.com/huanglong44/moonbit-imap"
 
-description = "IMAP4 会话、同步 literal、IDLE 与 TCP/TLS 客户端"
+description = "IMAP 会话核心与 Node 只读 UID 邮件导出工作流（有界子集）"

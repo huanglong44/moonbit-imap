@@ -1,0 +1,57 @@
+{
+  "kind": "scripted loopback TCP peers, not an independent server",
+  "passed": true,
+  "groups": 12,
+  "results": [
+    {
+      "name": "binary byte identity, reordered attributes, flags update and stable UID identities",
+      "passed": true
+    },
+    {
+      "name": "empty mailbox and zero-byte message are distinct valid outcomes",
+      "passed": true
+    },
+    {
+      "name": "missing/conflicting UIDVALIDITY and unconfirmed read-only selection fail before SEARCH",
+      "passed": true
+    },
+    {
+      "name": "UIDVALIDITY precondition mismatch prevents reading; observed rollover rejects completed data",
+      "passed": true
+    },
+    {
+      "name": "ambiguous or invalid SEARCH results are rejected",
+      "passed": true
+    },
+    {
+      "name": "message count and announced size limits stop before body download",
+      "passed": true
+    },
+    {
+      "name": "aggregate budget refuses the next body rather than returning a partial snapshot",
+      "passed": true
+    },
+    {
+      "name": "vanished UID, wrong UID body and duplicate FETCH identity never become successful output",
+      "passed": true
+    },
+    {
+      "name": "literal/advertised size mismatch and unsupported FETCH profile fail closed",
+      "passed": true
+    },
+    {
+      "name": "observed additions and removals during read invalidate output",
+      "passed": true
+    },
+    {
+      "name": "truncated body propagates transport failure without automatic retry",
+      "passed": true
+    },
+    {
+      "name": "invalid caps have no network side effects; simultaneous snapshot calls are refused",
+      "passed": true
+    }
+  ]
+}
+
+STDERR

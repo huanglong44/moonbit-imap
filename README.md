@@ -1,63 +1,57 @@
-# IMAP UID 与 literal 邮件会话客户端
+# MoonBit IMAP 会话库与只读 UID 邮件导出
 
 **本项目仓库：[https://github.com/huanglong44/moonbit-imap](https://github.com/huanglong44/moonbit-imap)**
 
-模块 `huanglong44/imap`，本地版本 **0.4.0**，MIT。当前评审状态：**条件复审**。本文件是当前入口，旧轮次说明与详细用法保存在 [历史/完整使用说明](README-BEFORE-VALUE-REWORK.md)。
+模块 `huanglong44/imap`，本地 **0.5.0**，MIT。当前状态：收到初审驳回后的本地整改稿，未推送、发布或提交复申；尚无实际用户部署验证。
 
-## 解决什么任务
+## 一个明确的任务
 
-按 UID 拉取邮件头/字节内容、处理 literal 和 continuation，并用 IDLE 感知邮箱变化，作为邮箱巡检/同步应用的底层。
+在不改变邮件已读标记的前提下，把一个小型邮箱中的原始邮件按 **邮箱 + UIDVALIDITY + UID** 导出为 `.eml` 和 SHA-256 清单。适合在接入邮件处理程序之前生成可追踪的输入副本；这里提供的是可复现工程流程，没有声称已有使用方。
 
-需要 UID、literal、邮箱状态和 IDLE 的调用方可使用；区别于 SMTP/MIME 和 POP3，不能把三者包装为三个完整邮箱应用。
+MoonBit 的 `Decoder` / `Session` 负责字节、命令和会话状态；Node 的 `ImapClient` 负责连接。新增 `readOnlySnapshot` 用 EXAMINE、UID SEARCH 和 BODY.PEEK 组合现有能力，先检查大小，再读取内容，最后重查 UID 集合和 UIDVALIDITY。发现身份变化、缺失或大小不一致会报错，不返回部分成功。它不是原子快照，也不是增量同步/完整备份产品。
 
-## 直接复现
+## 独立服务器复现
 
-安装 MoonBit 和 Node.js 24，在本仓库根目录运行：
+安装 MoonBit、Node.js 24 和 Java 21+，按 [TESTING](TESTING.md) 下载固定 GreenMail 2.1.13 JAR 并设置 `GREENMAIL_JAR`。在仓库根目录运行：
 
 ```sh
 moon build --target js
 node -e "require('node:fs').copyFileSync('_build/js/debug/build/cmd/web/web.js','web/engine.mjs')"
-node examples/run-use-case.mjs
+node examples/run-uid-snapshot.mjs
 ```
 
-流程：**读取带 literal 的 UID FETCH 报文**。运行器创建新的系统临时目录，保留每一步的 stdout/stderr、产物及 `report.json`，打印实际目录；重复运行不会覆盖之前产物。它只执行仓库内的本地样例，不连接公网或发送消息。`report.json` 的 `expected` 是应观察的结果，实际结果在各步输出中；成功退出不替代内容核对。
+运行器启动未经修改的 GreenMail 独立服务器，只监听本机随机端口。准备连接写入两封原创合成邮件后退出；另一个连接只读导出、核对字节、检查两封仍未读、再次读取比对哈希。结果保存到打印出的新临时目录：`1.eml`、`2.eml`、`manifest.json`。邮件和服务器是本地测试环境；没有连接真实用户邮箱。
 
-输入性质：离线合成报文；不是邮件同步客户端整体验收。
+最新保存产物：[清单](evidence/uid-snapshot-20260923/independent-example/manifest.json)、[执行记录](evidence/uid-snapshot-20260923/LOCAL-CHECKS.json)。UIDVALIDITY 与临时路径随运行变化，不作为确定性 golden。
 
-应观察：保留 UID 42、18 字节 literal 和 tagged completion；底层 TCP/TLS/IDLE 的证据另列。
+## 调用现有邮箱
 
-具体命令和输入路径见 [使用任务](USE-CASE.md) 与 [机器可读流程](examples/use-case.json)。只把这个脚本当复现入口，不把通用运行器计作核心技术贡献。
-
-## 实现与已有项目的关系
-
-MoonBit 实现字节解析、命令校验、会话和 continuation；Node 提供 TCP/TLS、STARTTLS、超时及取消。
-
-承认 SMTP/MIME 生态已有 MoonMailKit、moonmail、MoonMIME。这里是 IMAP 同步会话层，和邮件文本解析、POP3 UIDL 备份不同。
-
-同类项目和检索边界见 [DUPLICATION](DUPLICATION.md)。查重用于避免错误的首创表述；关键词零结果不能证明生态空白，Node 宿主能力也不计为 MoonBit 原生 I/O。
-
-库使用从 [公共 API](pkg.generated.mbti) 和根包源码开始；可在本 checkout 的消费包中导入 `"huanglong44/imap"`。源码中的网络/文件宿主入口及完整参数仍见 [完整使用说明](README-BEFORE-VALUE-REWORK.md)。是否已发布到 Mooncakes 需另核实，本文不把 `moon add` 的下载成功作为已完成事项。
-
-## 验证与边界
-
-前一轮工程验证真实回环连接的命令、literal、IDLE 与错误路径验证通过；实际 API 和旧服务器对照范围见 README/TESTING。
-
-[上一轮工程验证](evidence/innovation-review-20260922/results.json) 与 [本轮最小任务回执](evidence/value-rework-20260922/use-case.json) 分开。历史参考版本、golden 重放、本机 peer、真实第三方服务端和本次样例是不同证据，不能合并成“全部生产验证”。
-
-常规核心检查可运行 `moon check --target js`、`moon test --target js`、`moon test --target wasm-gc`。专项命令：
-
-```sh
-node tools/test-network.mjs
+```js
+import {ImapClient} from './tools/client.mjs';
+import {readOnlySnapshot} from './tools/snapshot.mjs';
+const client = await ImapClient.connect({host: process.env.IMAP_HOST}); // 默认 TLS / 993
+try {
+  await client.login(process.env.IMAP_USER, process.env.IMAP_PASSWORD);
+  const result = await readOnlySnapshot(client, {mailbox: 'INBOX', maxMessages: 50});
+  // result.messages 为 {uid, size, sha256, body: Buffer}；存储策略由调用方决定。
+} finally { client.close(); }
 ```
 
-专项所需的参考环境和历史版本见原使用说明及 TESTING 文档；本轮回执只记录实际执行项，不声称上面所有参考服务在任意环境即装即跑。
+以上是调用示意，本轮没有拿真实凭据运行。辅助函数必须独占已认证的客户端；同一客户端上的两个辅助函数会被拒绝，但调用方仍须避免穿插其它命令。出错后由调用方关闭连接或重新选择邮箱；不会自动重试或恢复旧游标。
 
-未实现完整邮件应用或所有 IMAP 扩展；本轮本机 peer 测试不是所有真实邮箱服务商的验收。
+## 当前边界
 
-## 复审材料状态
+- 单封正文上限 1 MiB；默认最多 100 封、合计 16 MiB，可配置至 1000 封/64 MiB。先用服务器声明大小预检，实际字节再校验；不是流式大附件下载器或进程内存硬配额。
+- 新辅助函数只接受普通 SEARCH，以及 UID / RFC822.SIZE / BODY[] literal / 平面 FLAGS 的限定 FETCH 响应；未知属性会拒绝。一般客户端仍返回原始响应行与 literal，不提供完整类型化 BODYSTRUCTURE。
+- 返回 `atomic:false`：两次观测之间及末次检查之后仍可能变化；没有事务快照、QRESYNC/CONDSTORE、断点续传、OAuth、MIME 附件提取、多账号调度或 IMAP4rev2 完整兼容承诺。
+- 导出例子把清单最后写入新目录；失败可能留下未完成目录，未实现跨文件事务。只读辅助函数没有 APPEND/STORE/EXPUNGE；例子的准备阶段会向临时服务器 APPEND。
 
-尚无完整同步调度或多服务商生产验证；离线报文和本地 peer 只能证明相应层。
+[能力与证据矩阵](CAPABILITY-MATRIX.md)逐项区分 MoonBit 核心、Node 宿主、新辅助函数、本轮实跑及历史记录。[USE-CASE](USE-CASE.md)说明输入输出和失败语义。[公共核心 API](pkg.generated.mbti)与 [客户端源码](tools/client.mjs)给出实际入口。
 
-2026-09-22 匿名新克隆成功；默认分支 `main`，核验公开提交 `4462b16b3a813a8011b397122b145027e8570880`。本轮源码修订仅在本地，尚未推送；此记录不证明当时报名表中的地址正确，也不证明新修订已上线。
+## 验证、来源与初审回应
 
-[申报草稿](PROPOSAL.md) 已压缩为 30 行以内，并单独标明本项目仓库；[复核说明](REVIEW-RESPONSE.md) 区分材料错误、功能变化及尚未解决的问题。没有编造用户、设备接入、生产部署或评审认可。
+2026-09-23：核心 JS/Wasm-GC 各 22 项；12 组新只读流程边界、8 组原 TCP/TLS、17 组 STARTTLS、7 组 GreenMail 原流程及新独立导出均通过。GreenMail 本轮使用回环 TCP；TLS/STARTTLS 本轮来自自编测试端。旧 Dovecot 2.4.2 记录保留但本轮未重跑，不能合并称为新功能生产验收。完整命令和未执行项见 [TESTING](TESTING.md)。
+
+IMAP 是既有协议，已有 go-imap 等成熟实现，MoonBit 邮件生态也有 SMTP/MIME 库。本项目不声称生态空白；新增价值限于可供 MoonBit 字节/会话核心调用方复用的 Node 只读流程与可检验的失败边界，Node I/O 不称为 MoonBit 原生网络栈。详见 [DUPLICATION](DUPLICATION.md)。
+
+针对“完整性、真实场景表述与证据不一致”，已重写 [申报草稿](PROPOSAL.md) 和 [复核回应](REVIEW-RESPONSE.md)，并保存 [此前材料](docs/before-uid-snapshot/README.md)。对接团队需要让报名表、公开仓库和附件指向同一版本；本地整改不等于初审通过。

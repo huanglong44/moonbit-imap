@@ -1,23 +1,13 @@
-> 2026-09-22 三份初审反馈后的当前判断：**条件复审**。尚无完整同步调度或多服务商生产验证；离线报文和本地 peer 只能证明相应层。 本次差异说明：承认 SMTP/MIME 生态已有 MoonMailKit、moonmail、MoonMIME。这里是 IMAP 同步会话层，和邮件文本解析、POP3 UIDL 备份不同。 以下保留之前检索的固定提交与来源；此前“补足场景”不能理解为本次已解除价值异议。
+# IMAP 既有生态关系与新增范围 · 2026-09-23
 
-# imap 查重与定位 · 2026-09-22
+IMAP、UID、EXAMINE和BODY.PEEK是既有协议语义，不是本项目提出。[RFC3501](https://www.rfc-editor.org/rfc/rfc3501.html)是现有实现使用的rev1语义来源；[RFC9051](https://www.rfc-editor.org/rfc/rfc9051.html)为后续rev2规范，不因引用它而声称完整rev2兼容。
 
-承认 SMTP/MIME 生态已有 MoonMailKit、moonmail、MoonMIME。这里是 IMAP 同步会话层，和邮件文本解析、POP3 UIDL 备份不同。 检索原始响应在总交付包的创新性复核目录保存。
+[go-imap](https://github.com/emersion/go-imap)等成熟客户端已覆盖邮件访问用途。在已有宿主语言中接入邮箱时应评估这些实现，不能把新增只读流程说成无人做过。MoonBit邮件生态已有MoonMailKit、moonmail、MoonMIME等SMTP/MIME项目；旧检索及固定来源保存在 [此前说明](docs/before-uid-snapshot/DUPLICATION.md)与原创新性复核证据。
 
+本项目核心是MoonBit的字节解析、literal与会话状态；Node提供网络和应用编排。SMTP投递、MIME解析与IMAP邮箱访问分属不同层，但这种分层本身不证明本项目具有足够创新性。
 
+0.5.0具体增加现有核心上的`readOnlySnapshot`：UID身份/大小预检、只读读取、观测竞态拒绝和结果清单；用未经修改的GreenMail验证字节和未读状态。此处没有重新实现MIME库、没有接入或宣称扩展相关SMTP/MIME库，也不把测试服务器或Node I/O当作MoonBit原创能力。
 
-本轮材料采用定位：**IMAP UID 与 literal 邮件会话客户端**。
+本轮官方注册表IMAP关键词检索记录归入总交付`REGISTRY-SEARCH.json`；搜索未命中不证明生态空白。检索不覆盖私有仓库和完整报名表，不保证没有其它同范围参赛项目。
 
-MoonBit 与宿主分工：MoonBit 实现字节解析、命令校验、会话和 continuation；Node 提供 TCP/TLS、STARTTLS、超时及取消。
-
-本轮证据：本轮真实回环连接的命令、literal、IDLE 与错误路径验证通过；实际 API 和旧服务器对照范围见 README/TESTING。 具体输入、脚本、已执行与历史对照分开记录在 [PROPOSAL.md](PROPOSAL.md) 和 evidence/innovation-review-20260922/。
-
-边界：未实现完整邮件应用或所有 IMAP 扩展；本轮本机 peer 测试不是所有真实邮箱服务商的验收。
-
-检索覆盖 Mooncakes 官方关键词/别名、GitHub 仓库查询、GitLink 公开索引、直接来源文档；没有完整赛事报名表、私有仓库、未公开分支或 GitHub 全代码索引。GitLink 索引也不完整。未找到同范围项目不等于生态空白；已有相关项目不自动等于无独立贡献。完整查询和固定提交快照在总交付目录 innovation-review-20260922/。
-
-初次复核风险为“待补场景”。本次补足差异和可复现工作流，没有自行将重叠归零，也不替评委作创新性认定。最终公开代码与表单附件须使用一致版本。
-
-## 来源直达
-
-[IMAP RFC3501](https://www.rfc-editor.org/rfc/rfc3501)、[go-imap 客户端](https://pkg.go.dev/github.com/emersion/go-imap/v2/imapclient)。这些是既有规范/实现的来源；具体固定版本、适配与运行范围见 [完整说明](README-BEFORE-VALUE-REWORK.md) 和仓库验证记录。链接存在不代表本轮重新运行了对方实现，也不构成赛事无重复证明。
+本次整改针对已收到的“完整性/真实场景证据不符”，不是新增首创声明。当前无使用方或生产邮箱部署；是否值得纳入生态应由实际接入需求、实现边界和评审判断决定。

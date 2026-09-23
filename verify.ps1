@@ -13,13 +13,13 @@ try {
   if ($LASTEXITCODE -ne 0) {throw 'format failed'}
   & $MoonPath info
   if ($LASTEXITCODE -ne 0) {throw 'API generation failed'}
-  & $MoonPath check --deny-warn
+  & $MoonPath check
   if ($LASTEXITCODE -ne 0) {throw 'check failed'}
-  & $MoonPath test --target wasm-gc --deny-warn
+  & $MoonPath test --target wasm-gc
   if ($LASTEXITCODE -ne 0) {throw 'tests failed'}
-  & $MoonPath test --target js --deny-warn
+  & $MoonPath test --target js
   if ($LASTEXITCODE -ne 0) {throw 'JS tests failed'}
-  & $MoonPath build --target js --deny-warn
+  & $MoonPath build --target js
   if ($LASTEXITCODE -ne 0) {throw 'build failed'}
   & $MoonPath run cmd/main
   if ($LASTEXITCODE -ne 0) {throw 'example failed'}
@@ -32,6 +32,12 @@ try {
   if ($LASTEXITCODE -ne 0) {throw 'network client test failed'}
   node tools/test-starttls.mjs
   if ($LASTEXITCODE -ne 0) {throw 'STARTTLS and authentication tests failed'}
+  node tools/test-snapshot.mjs
+  if ($LASTEXITCODE -ne 0) {throw 'UID snapshot tests failed'}
+  if ($env:GREENMAIL_JAR) {
+    node examples/run-uid-snapshot.mjs
+    if ($LASTEXITCODE -ne 0) {throw 'Independent UID snapshot example failed'}
+  } else {Write-Host 'GreenMail example NOT RUN: set GREENMAIL_JAR per TESTING.md'}
   node tools/test-cli.mjs
   if ($LASTEXITCODE -ne 0) {throw 'CLI test failed'}
   node tools/robustness.mjs

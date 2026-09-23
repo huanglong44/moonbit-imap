@@ -1,0 +1,14 @@
+{
+  "title": "读取带 literal 的 UID FETCH 报文",
+  "scope": "离线合成报文；不是邮件同步客户端整体验收。",
+  "steps": [
+    {
+      "args": [
+        "tools/cli.mjs",
+        "--file",
+        "examples/use-case/fetch.txt"
+      ]
+    }
+  ],
+  "expected": "保留 UID 42、18 字节 literal 和 tagged completion；底层 TCP/TLS/IDLE 的证据另列。"
+}

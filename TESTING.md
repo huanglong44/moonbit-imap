@@ -1,54 +1,54 @@
-# 测试与复现
+# 0.5.0 测试范围与复现 · 2026-09-23
 
-## 本轮 2026-09-16
+当前 [LOCAL-CHECKS.json](evidence/uid-snapshot-20260923/LOCAL-CHECKS.json)记录命令、退出码、工具版本及关键源码SHA-256。本轮JS/Wasm-GC各22项核心测试、新只读流程12组、既有TCP/TLS8组、STARTTLS17组、GreenMail7组既有命令及新独立UID导出通过，另跑浏览器引擎和CLI检查。
 
-IMAP 0.4.0：22 项 MoonBit 测试分别在 JS 和 Wasm-GC 通过，覆盖旧功能与 TLS 升级/认证取消状态。17 组 `test-starttls.mjs` 场景通过；既有 8 组 TCP/TLS 场景通过。Dovecot 2.4.2 的 9 项独立流程通过，实际执行 TLS 升级、认证和邮箱操作。
+没有重跑Dovecot、旧完整覆盖率/模糊测试/基准、全部20项目合集或远程CI。旧记录及 [此前测试说明](docs/before-uid-snapshot/TESTING.md)保留，不能升级为本轮或生产验收。CI新配置不等于远程已执行。
 
-- `evidence/starttls-validation.json`：自编 TCP/TLS 场景，包含客户端/引擎 SHA-256。
-- `evidence/dovecot-validation.json`：独立服务器版本、Ubuntu 包指纹、实际流程及源码指纹。
-- `evidence/tls-auth-upgrade.json`：本版核心与宿主验证汇总。
-
-本轮未重复 20 项合集、覆盖率/模糊测试/性能基准，未重打 ZIP/bundle。旧 evidence 保留原日期和范围；不能将旧覆盖率当成当前功能覆盖。远程 CI、长期运行和完整上游兼容没有完成。
-
-## 常规验证
+## 常规本地命令
 
 ```sh
 moon fmt
 moon info
-moon check --target js --deny-warn
-moon test --target js --deny-warn
-moon test --target wasm-gc --deny-warn
-moon build --target js --deny-warn
-# 将 _build/js/debug/build/cmd/web/web.js 复制为 web/engine.mjs 后：
-node tools/test-demo.mjs
-node tools/test-cli.mjs
+moon check --target js
+moon test --target js
+moon test --target wasm-gc
+moon build --target js
+node -e "require('node:fs').copyFileSync('_build/js/debug/build/cmd/web/web.js','web/engine.mjs')"
+node tools/test-snapshot.mjs
 node tools/test-network.mjs
 node tools/test-starttls.mjs
+node tools/test-demo.mjs
+node tools/test-cli.mjs
 ```
 
-网络测试需要 Node.js 和 OpenSSL；Windows 默认发现 Git 附带的 OpenSSL，也可用 OPENSSL 指定路径。每次生成短期 localhost 证书、只监听本机随机端口，结束后关闭 socket 并删除密钥。`verify.ps1` 和 CI 已接入专项网络检查；配置 CI 不代表远端已经运行。
+网络/TLS测试用Node.js、OpenSSL、本机临时端口和临时证书；OpenSSL可用`OPENSSL`指定。仅自编peer测试的结论，不能称为独立服务器互通。
 
-## Dovecot 独立互通
+## 独立 GreenMail 2.1.13
 
-`tools/dovecot-reference.py` 只准备临时账号、证书、Maildir 和服务配置，协议由未经修改的 Dovecot 2.4 二进制处理。测试数据不是外部邮件，未连接用户真实邮箱。
+需要Java21+（本轮Windows Java22.0.1实跑）。[GreenMail官网](https://greenmail-mail-test.github.io/greenmail/)说明其独立邮件测试服务器；固定制品在 [Maven Central](https://repo.maven.apache.org/maven2/com/icegreen/greenmail-standalone/2.1.13/greenmail-standalone-2.1.13.jar)。SHA-256：`21b361e46e8ffe83afe7915a2b01231c4a163c8d0fa5de607e32ed19732d908d`。不使用latest，不随源码分发JAR。
 
-本次使用 Windows Node.js v24.11.0，经 localhost 访问 WSL Ubuntu 26.04 的 Dovecot 2.4.2（Ubuntu 包 1:2.4.2+dfsg1-3ubuntu2.1）。没有安装系统服务或改写主机的 /usr、/etc 文件。依赖只下载和解包到临时目录；私有 Linux 挂载命名空间提供运行路径和临时组映射。测试结束时停止子进程并撤销挂载，证书及邮箱被清理。
-
-准备对应 Ubuntu 26.04 依赖（在 WSL 中执行；本脚本不自动安装或下载）：
+POSIX终端（自行选择下载位置，此处用当前工作目录）：
 
 ```sh
-mkdir -p /tmp/moonbit-dovecot-deps/packages /tmp/moonbit-dovecot-deps/root
-cd /tmp/moonbit-dovecot-deps/packages
-apt-get download dovecot-core dovecot-imapd dovecot-pop3d dovecot-sieve libpcre2-32-0 libexttextcat-2.0-0 libicu78 liblua5.4-0
-for package in ./*.deb; do dpkg-deb -x "$package" ../root; done
+curl -fsSL https://repo.maven.apache.org/maven2/com/icegreen/greenmail-standalone/2.1.13/greenmail-standalone-2.1.13.jar -o greenmail-2.1.13.jar
+export GREENMAIL_JAR="$PWD/greenmail-2.1.13.jar"
+node examples/run-uid-snapshot.mjs
+node tools/test-greenmail.mjs
 ```
 
-然后在本项目的 Windows PowerShell 中执行：
+PowerShell：
 
 ```powershell
-$env:WSL_DISTRO = 'Ubuntu-D'
-$env:DOVECOT_ROOT = '/tmp/moonbit-dovecot-deps/root'
-node tools/test-dovecot.mjs
+Invoke-WebRequest 'https://repo.maven.apache.org/maven2/com/icegreen/greenmail-standalone/2.1.13/greenmail-standalone-2.1.13.jar' -OutFile greenmail-2.1.13.jar
+$env:GREENMAIL_JAR = (Resolve-Path greenmail-2.1.13.jar).Path
+node examples/run-uid-snapshot.mjs
+node tools/test-greenmail.mjs
 ```
 
-提取包模式通过 WSL root 建立私有挂载命名空间；没有修改主机邮件服务或账号。Linux 原生运行可在已有 Dovecot 2.4 的隔离测试环境中以 root 运行同一 Node 脚本；本次实测的是上面的 Windows/WSL 路径。其它发行版的依赖名及 Dovecot 大版本需要单独适配。外部二进制不随本仓库分发。
+新harness启动前校验SHA-256，旧test-greenmail校验固定制品SHA-1；`JAVA`可指定Java可执行文件。`ImapReference.java`只设置随机回环端口和demo/test-only临时账号，协议由未修改的GreenMail处理。程序退出停止子进程；合成输入和输出清单保存在新临时目录。
+
+新例子逐字节对比两封UTF-8邮件，检查仍未读、相同UIDVALIDITY下重复哈希相同。GreenMail测试使用回环TCP并显式允许测试账号明文认证；真实客户端默认TLS。此例不证明真实服务商TLS、认证策略或邮箱权限兼容。
+
+当前原7组GreenMail流程覆盖LOGIN/能力、中文文件夹、APPEND/SELECT/STATUS、UIDSEARCH/FETCH、STORE/COPY、IDLE/DONE、EXPUNGE/CLOSE/RENAME/DELETE/LOGOUT；GreenMail未宣告AUTH=PLAIN，因此独立PLAIN被明确记为notRun。本轮没有将自编PLAIN测试冒充独立PLAIN通过。
+
+SHA-256清单和两封导出文件保存于 [independent-example](evidence/uid-snapshot-20260923/independent-example/manifest.json)。脚本每次产生新的UIDVALIDITY/路径；固定内容哈希可比较，运行标识不要求不变。

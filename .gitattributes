@@ -4,3 +4,5 @@
 *.wasm -text
 # Preserve protocol/message bytes in standalone source archives.
 examples/use-case/fetch.txt -text whitespace=cr-at-eol
+# Preserve exported RFC 5322 bytes so manifest hashes survive Git checkout.
+*.eml -text whitespace=cr-at-eol

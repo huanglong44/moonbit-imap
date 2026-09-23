@@ -1,25 +1,28 @@
-# IMAP UID 与 literal 邮件会话客户端 · 修订申报草稿
+# MoonBit IMAP 会话库与只读 UID 邮件导出 · 修订申报草稿
 
 本项目仓库：https://github.com/huanglong44/moonbit-imap
-模块 / 本地版本：`huanglong44/imap` / `0.4.0`；许可证：MIT。
-修订状态：条件复审；本轮仅本地修订，未推送或提交表单。
+模块 / 本地版本：`huanglong44/imap` / `0.5.0`；MIT。
+状态：已收到初审驳回；本地整改，未推送或提交复申。
 
-## 任务与选择依据
-按 UID 拉取邮件头/字节内容、处理 literal 和 continuation，并用 IDLE 感知邮箱变化，作为邮箱巡检/同步应用的底层。
-需要 UID、literal、邮箱状态和 IDLE 的调用方可使用；区别于 SMTP/MIME 和 POP3，不能把三者包装为三个完整邮箱应用。
+## 具体任务与交付
+将小型邮箱中的原始邮件按邮箱、UIDVALIDITY、UID导出，并记录大小和SHA-256，不改变已读标记。
+MoonBit负责Decoder/Session、字节literal与会话约束；Node负责TCP/TLS/STARTTLS、文件和流程编排。
+新增readOnlySnapshot：EXAMINE确认只读、UID SEARCH、大小预检、BODY.PEEK读取、末次集合/UIDVALIDITY检查；异常不返回部分成功。
+交付库源码、Node入口、独立服务器复现脚本、原始邮件产物、逐项能力证据矩阵及失败测试。
 
-## 已实现内容
-MoonBit 实现字节解析、命令校验、会话和 continuation；Node 提供 TCP/TLS、STARTTLS、超时及取消。
-可复现任务：读取带 literal 的 UID FETCH 报文；按 README 构建后运行 `node examples/run-use-case.mjs`，输入与输出见 USE-CASE.md。
-前一轮工程验证真实回环连接的命令、literal、IDLE 与错误路径验证通过；实际 API 和旧服务器对照范围见 README/TESTING。
+## 已有工作与本项目关系
+IMAP及UID语义来自既有规范；go-imap等已有成熟客户端，MoonBit生态已有SMTP/MIME项目，不再宣称生态空白。
+新增内容是既有MoonBit会话核心上的有界只读流程及失败处理，不把协议、Node网络I/O、测试服务器或通用脚本计作原创算法。
+未直接复用SMTP/MIME解析器，也未宣称上游认可或已有用户；相邻项目与本实现分工见DUPLICATION.md。
 
-## 原创、复用与差异
-原创实现/参考来源/第三方材料许可按 README、DUPLICATION 与仓库来源说明披露；不将既有协议、算法、词库或规范发明归于本项目。
-承认 SMTP/MIME 生态已有 MoonMailKit、moonmail、MoonMIME。这里是 IMAP 同步会话层，和邮件文本解析、POP3 UIDL 备份不同。
-比较项目链接单列于 DUPLICATION.md，不作为本项目提交地址。检索范围不含完整未公开报名表，不能保证无重叠。
+## 可复现实证
+按TESTING.md准备固定GreenMail2.1.13后，构建并运行node examples/run-uid-snapshot.mjs。
+真实独立服务端、两次连接、两封原创合成邮件：字节相同、未读标记保持、重复读取哈希一致，产出.eml与manifest。
+2026-09-23核心JS/Wasm-GC各22项、12组新边界、8组TCP/TLS、17组STARTTLS、7组既有GreenMail流程通过。
+测试环境是回环TCP；TLS/STARTTLS来自自编测试端。旧Dovecot记录本轮未重跑；无真实用户或生产邮箱验收。
 
-## 边界与剩余计划
-未实现完整邮件应用或所有 IMAP 扩展；本轮本机 peer 测试不是所有真实邮箱服务商的验收。
-尚无完整同步调度或多服务商生产验证；离线报文和本地 peer 只能证明相应层。
-剩余计划：由对接团队核对真实表单链接、公开本轮对应提交及确认选题/换题流程；按实际接入输入补验证，避免以更多规则、测试数量或改名替代用途证据。
-交付：MoonBit 库、限定宿主入口、可运行任务、源码/来源说明及分层验证证据；不承诺自动通过初审。
+## 范围与成熟度
+单封最多1MiB，默认100封/16MiB；只接受明确的SEARCH/FETCH响应子集，未知属性拒绝。
+这是非原子只读导出：不支持大附件流式下载、断点续传、全量增量同步、OAuth、QRESYNC/CONDSTORE、完整IMAP4rev2或MIME应用。
+尚需实际使用方输入与多服务商接入验证；不得据本地测试承诺通用生产成熟度或初审通过。
+对接团队需替换旧申报表正文，并将仓库、材料和本地提交统一后再复申。

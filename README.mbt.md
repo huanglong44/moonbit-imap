@@ -14,4 +14,6 @@ test "sequence sets reject invalid separators and zero" {
 }
 ```
 
-0.4 已提供 TCP/隐式 TLS/STARTTLS、APPEND/IDLE/PLAIN 和 Dovecot/GreenMail 互通。核心升级状态用法见 starttls_test.mbt；仍缺完整 FETCH 语义、更多 SASL 和其它扩展。
+历史0.4 已提供 TCP/隐式 TLS/STARTTLS、APPEND/IDLE/PLAIN 和 Dovecot/GreenMail 互通。核心升级状态用法见 starttls_test.mbt；仍缺完整 FETCH 语义、更多 SASL 和其它扩展。
+
+0.5 新增的是Node `readOnlySnapshot` 编排（tools/snapshot.mjs），不是MoonBit原生网络API。当前独立服务器证据与限制见CAPABILITY-MATRIX.md；旧Dovecot记录未在本轮重跑。

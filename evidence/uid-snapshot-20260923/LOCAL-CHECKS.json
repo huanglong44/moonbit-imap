@@ -1,0 +1,174 @@
+{
+  "date": "2026-09-23",
+  "checks": [
+    {
+      "check": "toolchain",
+      "command": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "version",
+        "--all"
+      ],
+      "exit": 0,
+      "log": "toolchain.log"
+    },
+    {
+      "check": "node-version",
+      "command": [
+        "node",
+        "--version"
+      ],
+      "exit": 0,
+      "log": "node-version.log"
+    },
+    {
+      "check": "java-version",
+      "command": [
+        "java",
+        "--version"
+      ],
+      "exit": 0,
+      "log": "java-version.log"
+    },
+    {
+      "check": "fmt",
+      "command": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "fmt"
+      ],
+      "exit": 0,
+      "log": "fmt.log"
+    },
+    {
+      "check": "info",
+      "command": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "info"
+      ],
+      "exit": 0,
+      "log": "info.log"
+    },
+    {
+      "check": "check-js",
+      "command": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "check",
+        "--target",
+        "js"
+      ],
+      "exit": 0,
+      "log": "check-js.log"
+    },
+    {
+      "check": "test-js",
+      "command": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "test",
+        "--target",
+        "js"
+      ],
+      "exit": 0,
+      "log": "test-js.log"
+    },
+    {
+      "check": "test-wasm-gc",
+      "command": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "test",
+        "--target",
+        "wasm-gc"
+      ],
+      "exit": 0,
+      "log": "test-wasm-gc.log"
+    },
+    {
+      "check": "build-js",
+      "command": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "build",
+        "--target",
+        "js"
+      ],
+      "exit": 0,
+      "log": "build-js.log"
+    },
+    {
+      "check": "test-snapshot",
+      "command": [
+        "node",
+        "tools/test-snapshot.mjs"
+      ],
+      "exit": 0,
+      "log": "test-snapshot.log"
+    },
+    {
+      "check": "test-demo",
+      "command": [
+        "node",
+        "tools/test-demo.mjs"
+      ],
+      "exit": 0,
+      "log": "test-demo.log"
+    },
+    {
+      "check": "test-cli",
+      "command": [
+        "node",
+        "tools/test-cli.mjs"
+      ],
+      "exit": 0,
+      "log": "test-cli.log"
+    },
+    {
+      "check": "test-network",
+      "command": [
+        "node",
+        "tools/test-network.mjs"
+      ],
+      "exit": 0,
+      "log": "test-network.log"
+    },
+    {
+      "check": "test-starttls",
+      "command": [
+        "node",
+        "tools/test-starttls.mjs"
+      ],
+      "exit": 0,
+      "log": "test-starttls.log"
+    },
+    {
+      "check": "test-greenmail",
+      "command": [
+        "node",
+        "tools/test-greenmail.mjs"
+      ],
+      "exit": 0,
+      "log": "test-greenmail.log"
+    },
+    {
+      "check": "independent-uid-example",
+      "command": [
+        "node",
+        "examples/run-uid-snapshot.mjs"
+      ],
+      "exit": 0,
+      "log": "independent-uid-example.log"
+    }
+  ],
+  "sourceSha256": {
+    "tools/client.mjs": "1204b4e1b72c93841f57368f2625322bb4b34686d16183b066210c7ebd462719",
+    "tools/snapshot.mjs": "578deef4d034838d75858a3f2cee1cb72a49ab84d940895a60ef6347b612e1e8",
+    "tools/test-snapshot.mjs": "5dc9822a580b2139d2c298b70d966eb9c39c2814f0d24e0f24553da3a1fc0d8e",
+    "tools/greenmail-harness.mjs": "22d52293afab3f1b35bc2f3df56e830612ff8743d09edb4a514da2b85887ee37",
+    "tools/ImapReference.java": "8733e4f6688e2e9e446259263b92ff2aab67253476939e1c4f63fc8c1909f52c",
+    "web/engine.mjs": "26d8674d13e4501c90988b678dc94b6f7d524a2d2959e6e84e2fb7147be92aea",
+    "examples/run-uid-snapshot.mjs": "1ea5a12cbe5d714b668340980ff4cce7d4bd4e16e703157f4449e3c5a87c90ad"
+  },
+  "historicalEvidencePreserved": true,
+  "independentServer": "GreenMail 2.1.13",
+  "independentServerTransport": "loopback TCP",
+  "DovecotRerun": false,
+  "remoteCIExecuted": false,
+  "published": false,
+  "productionUsersClaimed": false
+}

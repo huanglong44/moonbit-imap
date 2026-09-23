@@ -8,6 +8,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
       - name: Install MoonBit
         run: |
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
@@ -27,6 +31,12 @@ jobs:
       - run: node tools/test-cli.mjs
       - run: node tools/test-network.mjs
       - run: node tools/test-starttls.mjs
+      - run: node tools/test-snapshot.mjs
+      - name: Independent GreenMail UID export
+        run: |
+          curl -fsSL https://repo.maven.apache.org/maven2/com/icegreen/greenmail-standalone/2.1.13/greenmail-standalone-2.1.13.jar -o "$RUNNER_TEMP/greenmail.jar"
+          echo "21b361e46e8ffe83afe7915a2b01231c4a163c8d0fa5de607e32ed19732d908d  $RUNNER_TEMP/greenmail.jar" | sha256sum --check
+          GREENMAIL_JAR="$RUNNER_TEMP/greenmail.jar" node examples/run-uid-snapshot.mjs | tee evidence/uid-snapshot-20260923/ci-greenmail.json
       - run: node tools/robustness.mjs
       - run: node tools/benchmark.mjs
       - uses: actions/upload-artifact@v4

@@ -1,0 +1,3 @@
+{"output":"C:\\Users\\uiwcv\\AppData\\Local\\Temp\\imap-uid-snapshot-4LQF9M","server":"GreenMail 2.1.13","artifactSha1":"6c84bc84e76784674d07b294dc4933619de35bba","artifactSha256":"21b361e46e8ffe83afe7915a2b01231c4a163c8d0fa5de607e32ed19732d908d","transport":"loopback TCP; test-only credentials","mailbox":"只读导出","uidValidity":"1790151404","readOnly":true,"atomic":false,"bodyPeekPreservedUnseen":true,"repeatedReadMatches":true,"bytes":252,"messages":[{"uid":"1","size":126,"sha256":"db7816d62cf624837ddce8784b7f1530a036176bcbd738d8b9fe2639b7276081","file":"1.eml"},{"uid":"2","size":126,"sha256":"1baa03e9b6d191d36dbf2b899742b468d53bf376bc1c8d34e1df95e50e269da8","file":"2.eml"}]}
+
+STDERR

@@ -1,17 +1,22 @@
 {
   "project": "imap",
-  "title": "IMAP UID 与 literal 邮件会话客户端",
+  "title": "MoonBit IMAP 会话库与只读 UID 邮件导出",
   "module": "huanglong44/imap",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "repository": "https://github.com/huanglong44/moonbit-imap",
-  "status": "条件复审",
-  "remainingRisk": "尚无完整同步调度或多服务商生产验证；离线报文和本地 peer 只能证明相应层。",
+  "status": "已收到初审驳回；本地整改待团队同步复申",
+  "rejection": "功能完整性和真实场景验证表述与仓库证据不完全一致，交付边界和成熟度不足",
+  "remainingRisk": "限定1MiB正文/非原子流程；无真实使用方、多服务商或持久化同步验证",
   "actualUsersClaimed": false,
-  "anonymousCloneVerified": true,
-  "publicHead": "4462b16b3a813a8011b397122b145027e8570880",
-  "defaultBranch": "origin/main",
   "localChangesPublished": false,
-  "proposalLines": 25,
-  "useCase": "读取带 literal 的 UID FETCH 报文",
-  "diff": "承认 SMTP/MIME 生态已有 MoonMailKit、moonmail、MoonMIME。这里是 IMAP 同步会话层，和邮件文本解析、POP3 UIDL 备份不同。"
+  "formsSubmitted": false,
+  "proposalLines": 28,
+  "useCase": "独立GreenMail只读UID原始邮件导出",
+  "currentEvidence": "evidence/uid-snapshot-20260923/LOCAL-CHECKS.json",
+  "historicalAnonymousClone": {
+    "date": "2026-09-22",
+    "head": "4462b16b3a813a8011b397122b145027e8570880",
+    "notCurrentPublicHeadClaim": true
+  },
+  "diff": "现有MoonBit会话核心上的Node有界只读流程；既有协议语义不算原创，不宣称生态空白或生产成熟"
 }

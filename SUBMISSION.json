@@ -6,19 +6,19 @@
   "repository": "https://github.com/huanglong44/moonbit-imap",
   "status": "原申报已驳回；本地修订待团队同步复审",
   "rejection": "功能完整性和真实场景验证表述与仓库证据不完全一致，交付边界和成熟度不足",
-  "remainingRisk": "限定1MiB正文/非原子流程；无真实使用方、多服务商或持久化同步验证",
+  "remainingRisk": "不是完整IMAP rev2客户端、持久化同步、原子备份或全服务商认证",
   "actualUsersClaimed": false,
   "localChangesPublished": false,
   "formsSubmitted": false,
   "proposalLines": 14,
-  "useCase": "独立GreenMail只读UID原始邮件导出",
+  "useCase": "把literal正文与FETCH结构原位绑定，以tagged完成和UID身份提交只读结果",
   "currentEvidence": "evidence/typed-20260927/LOCAL-CHECKS.json",
   "historicalAnonymousClone": {
     "date": "2026-09-22",
     "head": "4462b16b3a813a8011b397122b145027e8570880",
     "notCurrentPublicHeadClaim": true
   },
-  "diff": "现有MoonBit会话核心上的Node有界只读流程；既有协议语义不算原创，不宣称生态空白或生产成熟",
+  "diff": "协议原有；新增MoonBit类型化响应与UID状态，宿主不再以正则猜正文归属",
   "historicalEvidencePointers": {
     "currentEvidence": "evidence/uid-snapshot-20260923/LOCAL-CHECKS.json"
   },
@@ -28,5 +28,6 @@
   "remoteCIRunByThisTask": false,
   "currentValidation": "evidence/typed-20260927/LOCAL-CHECKS.json",
   "metadataReviewedOn": "2026-09-27",
-  "currentEvidenceScope": "Typed MoonBit read-response core; GreenMail and Dovecot integration; no full-client claim"
+  "currentEvidenceScope": "Typed MoonBit read-response core; GreenMail and Dovecot integration; no full-client claim",
+  "reviewDecision": "保留并补结构会话核心"
 }

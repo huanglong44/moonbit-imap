@@ -1,0 +1,190 @@
+{
+  "recordedAt": "2026-09-26T18:57:21.101143+00:00",
+  "version": "0.6.0",
+  "toolchain": "0.10.12+1634b282e",
+  "host": "Windows",
+  "checks": [
+    {
+      "name": "fmt",
+      "argv": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "fmt",
+        "--check"
+      ],
+      "exit": 0,
+      "log": "fmt.log"
+    },
+    {
+      "name": "info",
+      "argv": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "info"
+      ],
+      "exit": 0,
+      "log": "info.log"
+    },
+    {
+      "name": "check",
+      "argv": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "check",
+        "--target",
+        "all"
+      ],
+      "exit": 0,
+      "log": "check.log"
+    },
+    {
+      "name": "test-js",
+      "argv": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "test",
+        "--target",
+        "js"
+      ],
+      "exit": 0,
+      "log": "test-js.log"
+    },
+    {
+      "name": "test-wasm",
+      "argv": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "test",
+        "--target",
+        "wasm-gc"
+      ],
+      "exit": 0,
+      "log": "test-wasm.log"
+    },
+    {
+      "name": "build",
+      "argv": [
+        "C:\\Users\\uiwcv\\Documents\\Codex\\2026-09-10\\ban\\work\\moon\\bin\\moon.exe",
+        "build",
+        "--target",
+        "js"
+      ],
+      "exit": 0,
+      "log": "build.log"
+    },
+    {
+      "name": "scripted-peers",
+      "argv": [
+        "node",
+        "tools/test-snapshot.mjs"
+      ],
+      "exit": 0,
+      "log": "scripted-peers.log"
+    },
+    {
+      "name": "greenmail",
+      "argv": [
+        "node",
+        "examples/run-uid-snapshot.mjs"
+      ],
+      "exit": 0,
+      "log": "greenmail.log"
+    }
+  ],
+  "independentDovecot": {
+    "checks": 10,
+    "passed": true,
+    "transport": "verified TLS via isolated WSL Ubuntu-D",
+    "record": "dovecot.json"
+  },
+  "pureConsumer": {
+    "js": "mailbox=INBOX validity=77 uid=42 sequence=12 bytes=6",
+    "wasm-gc": "mailbox=INBOX validity=77 uid=42 sequence=12 bytes=6",
+    "source": "actual earlier command outputs this task"
+  },
+  "sourceSha256LF": {
+    "cmd/web/projection.mbt": "e33e5a61b69988bc1dcea78af11950b6f7973e6bdde08df22e440970722f9cc4",
+    "docs/TYPED-RESPONSES.md": "1179fb23ed3814ae0b8e2fda6487881abd62ac2ecc1d32875d7463c89189dcb7",
+    "examples/typed_read/main.mbt": "d08e31d811527c6e39f95901591fbf2aa8c1134a52ee86a908d328e79aaf9a9c",
+    "examples/typed_read/moon.pkg": "d58a1345d0f4bb3362efd55d945aae45c574940bc73175daa7a04327f955f74d",
+    "examples/typed_read/pkg.generated.mbti": "7b8954db1ddc2d7c4119febb7306b662625afe0deecec27f25a631f5a683eaa7",
+    "response_ast.mbt": "a0b8f5adecf2a5efbf1a8aea72e688dc7eb61906c4e93ce58736b3878157f52b",
+    "response_profile.mbt": "8af2687ae566f052b3f721e1e37cf6f2fb8699ecb95994fe10b007928ff1dd9c",
+    "response_profile_test.mbt": "f9a0bc145df33739a4c48ec5dc535141353decf3b374ba69c6c87d9448f3c9fd",
+    "tools/typed-result.mjs": "d8b4296bc4102112aac364760af6f2d3b48159dbfc11d49feff34a900b0db2b3",
+    "uid_search.mbt": "19c9e7fdf2061a8632e75c6746e69d3676435575acb4e0acde4654b72b8ee782",
+    ".gitattributes": "32174d96b3378967d8ad64610a940a8e7183684012e46612154d58d0b5b73593",
+    ".github/workflows/ci.yml": "3ac5ace3e38b553aef600dfef22930bd96c428702b27a85b106324662ea6f5e5",
+    ".gitignore": "3d9dc44b0aac4db3956c0de5cf053d34927f4b4105058932d2dc9a6ffcb58a03",
+    ".moonbit-version": "e068cfc8c22d644016bdaed3c31f6fc281a3ef5047cc9ac0011ca4bd36eec6dd",
+    "CAPABILITY-MATRIX.md": "cb477a4596d39a6038710426f7d887086989b54a7465288d6f064a39f77a64be",
+    "CHANGELOG.md": "7d23d0fd6bacffe95dd75246e48bcdbcec26d72a8cc2d3d7f4ff09eea717dcb4",
+    "CONTRIBUTING.md": "e066713924ff8db789960bf03122a64cea6904cf4dc7666b9747802f3b50d491",
+    "DUPLICATION.md": "8f0e4c605552d4c092862f00ef09d7a64e217eb8daf741bfe40431c7a01b43b1",
+    "FEATURES.md": "449d66abacc2eb1e215ae3db58f93da901b361d6656b08cd134321e71db0512d",
+    "LICENSE": "a2ae469f92ac7fd70592f338c7c43657c7e9510be802cfb3db880fff11df3807",
+    "MANIFEST.sha256.json.baseline": "aecace421f16733f59e634e82e769bacae3412e884ed897b1508f06e3bd298f2",
+    "PROPOSAL.md": "c3dc201762e1ba4e82768125bee679aefbc2a965c27c6756a3608d522b1d710c",
+    "README-BEFORE-VALUE-REWORK.md": "5e93100014f1003a28554b02ff275567aa5b904765e78a0205ecf4952b6b2127",
+    "README.mbt.md": "46c95851c3a7738a40e0c38fb963667d3029a1a4443327a8929566d00b3a8756",
+    "README.md": "90ae2ef53e1a3b3dbc7d406d907b00bdc92418b596a783c33025a9c6b25a15e1",
+    "REVIEW-RESPONSE.md": "2fb394ea69a9e93bb16eae20cb9241c739705a894640ddd303df176b1ef927d1",
+    "ROADMAP.md": "5d231ca8410744ae5bce06b061c514d4738513944342faae8860658b6475f568",
+    "SUBMISSION.json": "80a04a59fc46f5fadc83905922581ce2f0577e00c18c1f89d5f8caf8f9897dcc",
+    "TESTING.md": "aace48ea79354a725bbdcf48ab7917929df654ba3152629343463975bfab9184",
+    "TOOLCHAIN.md": "7afb39a7357370cfa0731afc0db1934e35c705892b51005a89dd4736fd67347c",
+    "USE-CASE.md": "33c3ea36a4d935dc388b07bd297121236b776880532b758fbb7ad126782120c2",
+    "cmd/main/main.mbt": "44b985afbd7e32055028a9f28469c328828755f85e41357bbfa7c6143dbf3b47",
+    "cmd/main/moon.pkg": "8a94dbdcc61f71104daf4704ed9183813e405ac16e5f9df37bab3962fd9fd4e0",
+    "cmd/main/pkg.generated.mbti": "e3e8f893c3842473203d495428f52438a92ba501159e67c456a1d99a82d13195",
+    "cmd/web/main.mbt": "85af6b817ade4a199db4da26572a6698e10507297f2686f9089fd0987eac0a4b",
+    "cmd/web/moon.pkg": "06721ed5d270355acc213468a5768fb882be30fd777ecf7b321e6140c502139f",
+    "cmd/web/session.mbt": "1915d0ddfee497a20ad29b9105da2af1009170478ce6c747ccfdc1579d156e14",
+    "commands.mbt": "8f1c1a86690894356ec17572312fbdd54a889e688561ed65ffce082101eb67a1",
+    "core_test.mbt": "16cb1b6a92dfe69aa0a01049fb8f793c8c2836bb10c7d6e9c88b6e3c634353a8",
+    "decoder.mbt": "8e2ca3c694ac714c9b72c714f5610bab2416d7b8b4ade947dac08e83c98e568d",
+    "docs/before-uid-snapshot/DUPLICATION.md": "4cb5a9f641f15d49085251c2bab468c130c39d47360d5ff28ef42f1d9eaf90bd",
+    "docs/before-uid-snapshot/PROPOSAL.md": "b30d6d5666347eec0b654c4864f28da2da1fbd9ab8e81342e19db962582bc7e5",
+    "docs/before-uid-snapshot/README.md": "4ca4fb4db45d4a629c5713157d86331cc12883e8383896965263055096e4a831",
+    "docs/before-uid-snapshot/REVIEW-RESPONSE.md": "7bf1dc082a657c47bfe4ccd559c2c29369981af456b073b3b5207e5f0ef1a2df",
+    "docs/before-uid-snapshot/SUBMISSION.json": "80a57073101285042ed98e9170622483fc5ef83f24998ebfaa40238d7b5d150b",
+    "docs/before-uid-snapshot/TESTING.md": "b5e2895cdb1fc3faebfdaaffbbde6ace2d24cd3a95b5ce3674d89b1aaa928422",
+    "docs/before-uid-snapshot/USE-CASE.md": "5908e574a943832eac56d382bfa751c1702234740e0a85623611d00ca9ec4dc0",
+    "examples/run-uid-snapshot.mjs": "1ea5a12cbe5d714b668340980ff4cce7d4bd4e16e703157f4449e3c5a87c90ad",
+    "examples/run-use-case.mjs": "359ea34b13ee185b6cae0536da5e25bb56bfc51d2e5dd166c304b1684003a3bb",
+    "examples/use-case-before-snapshot.json": "74012c8d92f890e61b4924df07153168d7b631c35f3820ca2f44e3a1c7fc2b6b",
+    "examples/use-case.json": "519ac7e26357d28695b8b0df490a01688eea1b0b42e36bbd6c82c7377ea77d91",
+    "examples/use-case/fetch.txt": "d8653b971f7cf13e27adeafc2f2c8fb0bb09fdbb38d81f6714ab66a582bf9a2d",
+    "mailbox.mbt": "8f37abcce24fbcdb46fdf8ad5405f6f3f4f76df7e30ccef488f125f3868811e4",
+    "moon.mod": "57bb5503d107fa1eb5879b08cfd457f43f8d9bc2427e386b0aeca349db12cb00",
+    "moon.pkg": "f5591e0141dfeeefb69bc00711dc503c852e34e67496380bda5742307dcc03d9",
+    "pkg.generated.mbti": "9598d179b6bf800db69de09ebe486dc5c5129981f26259c3c6ab990dfda0999a",
+    "protocol.mbt": "81b8acc435d759ee1182899e5cc890c26bf292a53c2b3815296e2e9b487b2a1c",
+    "sample.txt": "01ffdbee2251b22251de3ccd57fe380277542ef0ad691a62b5b0f4455f319a0f",
+    "session.mbt": "ba64f32f06a45d3bb2375f94552130bed3838dc5ca0cc475be488ba7a719b0cd",
+    "session_test.mbt": "896e1c9787b67d143e7be0759cf28dce7cb2796295411479d8f97fbc272a2952",
+    "start-review.ps1": "957b47f22753f1ce29054ec75408fdc4828792f94b556406fb60fb21e2126cef",
+    "starttls_test.mbt": "3bc5f44413f65129a04bb84e2a18d86c8d51e1bc92e43b3291b12fc3b6ae1ba7",
+    "tools/ImapReference.java": "8733e4f6688e2e9e446259263b92ff2aab67253476939e1c4f63fc8c1909f52c",
+    "tools/benchmark.mjs": "53ac611536ba7cb3732017d22976ff8f38dbd9e7aa579c2469eab75b0cdc7216",
+    "tools/cli.mjs": "f98839799f2896c92a75e6565add432efe166f00bc3fed89e03d6d59eca688d4",
+    "tools/client.mjs": "1204b4e1b72c93841f57368f2625322bb4b34686d16183b066210c7ebd462719",
+    "tools/dovecot-reference.py": "8ed02724058a006e2a62306f390a177de6edab400406ef3b479af2ca853d35e6",
+    "tools/greenmail-harness.mjs": "22d52293afab3f1b35bc2f3df56e830612ff8743d09edb4a514da2b85887ee37",
+    "tools/invalid-input.txt": "f526795c95399cea27c055c842c3d6ab018ed0fa4f66f701c28ab22dec28237b",
+    "tools/robustness.mjs": "24964a078897dccc448ba3d5db4c08f6446d38008424987bf26b4b6f042a21d6",
+    "tools/serve.py": "77361b08fc65d9c6a3d89bda03949d9e1a9754f76e8cc32b20ca11aa9bf1ff5e",
+    "tools/snapshot.mjs": "7986523d0703cc6b825b9521114db6a52401ff270478b3e32d0f88a54651de6f",
+    "tools/test-cli.mjs": "b1acaf8992e16d37e1527fd60beeea275ce0df574a9622ab3b44d86dcaf08b03",
+    "tools/test-demo.mjs": "02ec6337b9c72c299450db6f0d2b024fd4fd96193d17e5cd501c3a8e6eb87188",
+    "tools/test-dovecot.mjs": "781ff7e8b48d85e12be558aef4fa21b2e595bc2abd9268f6139ecf7cab879279",
+    "tools/test-greenmail.mjs": "8257f20d8334a3af2ffa7d4cff173d9cb8fad4215db9d51eb81b0c4889040ba5",
+    "tools/test-network.mjs": "f59cde82e01f77b0c5e6700246061200e0924e9f32b948f52ffc48f36cc4869b",
+    "tools/test-snapshot.mjs": "fee481df08314908962a9595a257bf86d69dfaf3a1c06434927df373b26f7e15",
+    "tools/test-starttls.mjs": "83bacfe74f76c437ca2f91f8c8f86849c09a988ddd88c08fa0a8bd0fdb7f5900",
+    "usability.mbt": "0f7a6b95038c312c4271ffc5bfbec2a5602896074a23a723e27186692e5a5814",
+    "verify.ps1": "606e63d3f6daa5199528dc8d23a4d027d69c1ffd1b9131a807fce1582c3122e0",
+    "web/app.mjs": "12a0cf3565b6298e2e3760355ec5da3fed88870be604b7f6e1a2f57d7334578d",
+    "web/config.mjs": "7acdf4c02f3e2a0a1b89d21084b4a18ef18fe6554328d75915bee5b1c7974096",
+    "web/engine.mjs": "641b45d4ac534dc9a48a53651a223d45df06bb9305841fde4749cc74fe22eef0",
+    "web/index.html": "cdcbb5d9f2d455d4335bfd7fdcd30bac065fc0b90843d4fe616ef9726fc7aeb8"
+  },
+  "remoteCI": false,
+  "realUsers": false,
+  "published": false
+}

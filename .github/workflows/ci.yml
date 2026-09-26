@@ -22,6 +22,8 @@ jobs:
       - run: moon check
       - run: moon test --target wasm-gc
       - run: moon test --target js
+      - run: moon run examples/typed_read --target js
+      - run: moon run examples/typed_read --target wasm-gc
       - run: moon build --target js
       - name: Refresh actual browser engine
         run: |

@@ -6,6 +6,8 @@ import {
 }
 
 // Values
+pub fn completed_response(String, Array[Response]) -> CompletedResponse raise ImapError
+
 pub fn decode_mailbox(String) -> String raise ImapError
 
 pub fn encode_mailbox(String) -> String raise ImapError
@@ -18,6 +20,13 @@ pub suberror ImapError {
 } derive(@debug.Debug)
 
 // Types and methods
+pub struct CompletedResponse {
+  // private fields
+}
+pub fn CompletedResponse::fetch(Self) -> Array[FetchInfo] raise ImapError
+pub fn CompletedResponse::selection(Self, read_only? : Bool) -> SelectionInfo raise ImapError
+pub fn CompletedResponse::uid_search(Self) -> UidSet raise ImapError
+
 pub struct Decoder {
   // private fields
 } derive(@debug.Debug)
@@ -26,10 +35,49 @@ pub fn Decoder::finish(Self) -> Unit raise ImapError
 pub fn Decoder::has_partial(Self) -> Bool
 pub fn Decoder::new() -> Self
 
+pub(all) enum FetchBody {
+  Missing
+  NilBody
+  Body(Bytes)
+} derive(Eq, @debug.Debug)
+
+pub struct FetchInfo {
+  sequence : Int64
+  uid : Int64?
+  size : Int64?
+  flags : Array[String]?
+  body : FetchBody
+  unknown : Array[(String, ImapValue)]
+} derive(Eq, @debug.Debug)
+
+pub(all) enum ImapValue {
+  Atom(String)
+  Quoted(String)
+  Nil
+  Literal(Bytes)
+  List(Array[ImapValue])
+} derive(Eq, @debug.Debug)
+
+pub(all) enum MailboxAccess {
+  ReadOnly
+  ReadWrite
+} derive(Eq, @debug.Debug)
+
 pub(all) struct Response {
   line : String
   literals : Array[Bytes]
 } derive(Eq, @debug.Debug)
+pub fn Response::parse(Self) -> TypedResponse raise ImapError
+
+pub struct SelectionInfo {
+  uid_validity : Int64
+  uid_next : Int64?
+  exists : Int64?
+  flags : Array[String]
+  permanent_flags : Array[String]
+  access : MailboxAccess
+} derive(Eq, @debug.Debug)
+pub fn SelectionInfo::identity(Self, String, Int64) -> UidIdentity raise ImapError
 
 pub struct Session {
   // private fields
@@ -54,6 +102,30 @@ pub(all) enum State {
   Selected
   Closed
 } derive(Eq, @debug.Debug)
+
+pub(all) enum TypedResponse {
+  Status(String, String, Array[ImapValue], String)
+  Data(Array[ImapValue])
+  Continuation(String)
+} derive(Eq, @debug.Debug)
+
+pub struct UidIdentity {
+  mailbox : String
+  uid_validity : Int64
+  uid : Int64
+} derive(Eq, @debug.Debug)
+
+pub struct UidRange {
+  first : Int64
+  last : Int64
+} derive(Eq, @debug.Debug)
+
+pub struct UidSet {
+  count : Int64
+  // private fields
+} derive(Eq, @debug.Debug)
+pub fn UidSet::expand(Self, limit~ : Int) -> Array[Int64] raise ImapError
+pub fn UidSet::ranges(Self) -> Array[UidRange]
 
 // Type aliases
 

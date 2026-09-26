@@ -20,6 +20,7 @@ options(
         "session_continue",
         "session_finish",
         "mailbox_name",
+        "project_result",
       ],
       "format": "esm",
     },

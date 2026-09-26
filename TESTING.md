@@ -1,4 +1,14 @@
-# 0.5.0 测试范围与复现 · 2026-09-23
+# 0.6.0 测试范围与复现 · 2026-09-27
+
+当前新增结构/UID核心已在JS/Wasm-GC各29组测试通过，其中7组为分片、结构位置、完成门槛、身份、ESEARCH范围和拒绝边界。Node只读流程13组故障peer通过；纯MoonBit的examples/typed_read在两后端输出相同UID身份与6字节二进制正文长度。
+
+独立GreenMail2.1.13实际运行两封合成邮件的只读导出，字节、未读标志、重复哈希一致。独立Dovecot2.4.2（0962ed2104）经Windows客户端/WSL服务端、已验证TLS升级完成10项流程；新增项目直接检查MoonBit EXAMINE/UID FETCH/ESEARCH投影，ESEARCH来自未经修改服务器实际响应，不是手写mock。源码/包指纹和结果见evidence/typed-20260927/dovecot.json。
+
+Dovecot依赖仅下载并按Ubuntu包索引SHA256校验、解包到工作缓存；私有Linux挂载命名空间运行临时邮件服务，未安装系统服务。此前临时缓存已不存在，首次WSL下载超时；改用正常官方制品下载后成功。样本邮件仍是原创合成输入，没有真实用户凭据或外部邮箱采用证明。
+
+当前回执在evidence/typed-20260927。没有把旧全量模糊/性能/所有协议兼容记录升级为当前验证。远程CI未执行。
+
+## 0.5.0 历史记录（2026-09-23）
 
 当前 [LOCAL-CHECKS.json](evidence/uid-snapshot-20260923/LOCAL-CHECKS.json)记录命令、退出码、工具版本及关键源码SHA-256。本轮JS/Wasm-GC各22项核心测试、新只读流程12组、既有TCP/TLS8组、STARTTLS17组、GreenMail7组既有命令及新独立UID导出通过，另跑浏览器引擎和CLI检查。
 

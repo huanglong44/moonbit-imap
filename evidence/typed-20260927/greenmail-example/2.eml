@@ -1,0 +1,6 @@
+From: local@example.test
+To: demo@localhost
+Subject: snapshot-2
+Content-Type: text/plain; charset=utf-8
+
+中文正文 2

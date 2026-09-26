@@ -25,7 +25,7 @@
 
 辅助函数不拥有客户端生命周期，不主动logout或close；调用方用finally关闭。它只使用EXAMINE/UID SEARCH/UID FETCH，不发送STORE/EXPUNGE/APPEND。所有正文存在内存中，不支持大邮件分段流式下载；服务器谎报大小时读取后拒绝，解析器和客户端仍有各自的响应上限。
 
-FETCH子集只接受UID、RFC822.SIZE、BODY[] literal及平面FLAGS。兼容乱序属性和不带UID的未请求FLAGS更新；其它属性、多个body或身份歧义会拒绝。不是通用BODYSTRUCTURE解析器。
+当前流程由MoonBit结构投影解释经典SEARCH/ESEARCH、UID、RFC822.SIZE、BODY[] literal及平面FLAGS。兼容乱序属性和不带UID的未请求FLAGS更新；其它属性、多个body或身份歧义会拒绝。不是通用BODYSTRUCTURE解析器。
 
 ## 独立复现与保存证据
 

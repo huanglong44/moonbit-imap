@@ -1,0 +1,5 @@
+import {
+  "huanglong44/imap",
+}
+
+pkgtype(kind: "executable")

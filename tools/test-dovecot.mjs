@@ -6,6 +6,7 @@ import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 import net from 'node:net';
 import * as api from './client.mjs';
+import {projectResult} from './typed-result.mjs';
 
 const pop = !!api.Pop3Client, Client = api.Pop3Client ?? api.ImapClient;
 const results = [], clients = [], extractedRoot = process.env.DOVECOT_ROOT;
@@ -79,6 +80,23 @@ try {
       const next=await connect({startTls:true});await next.login('demo','test-only');assert.match((await next.command('STAT')).message,/^0 /);await next.quit();
     });
   }else{
+    await test('MoonBit typed EXAMINE UID FETCH and ESEARCH against independent server',async()=>{
+      const selection=projectResult(await first.select('INBOX',{readOnly:true}),'selection');
+      assert.ok(BigInt(selection.uidValidity)>0n);assert.equal(selection.readOnly,true);
+      assert.equal(selection.exists,'1');assert.ok(BigInt(selection.uidNext)>0n);
+      const ordinary=projectResult(await first.search('ALL',{uid:true}),'search');
+      const extendedResult=await first.search('RETURN (ALL COUNT MIN MAX) ALL',{uid:true});
+      assert.ok(extendedResult.responses.some(r=>r.line.startsWith('* ESEARCH ')));
+      const extended=projectResult(extendedResult,'search');
+      assert.deepEqual(extended,ordinary);
+      const uid=ordinary.uids[0];
+      const records=projectResult(await first.fetch(uid,'(UID FLAGS RFC822.SIZE BODY.PEEK[])',{uid:true}),'fetch');
+      const message=records.find(r=>r.uid===uid&&r.bodyState==='bytes');
+      assert.ok(message);const bytes=Buffer.from(message.bodyHex,'hex');
+      assert.equal(String(bytes.length),message.size);
+      assert.ok(bytes.includes(Buffer.from('Independent Dovecot body\r\n.dot-stuffed line\r\n')));
+      assert.deepEqual(message.unknownAttributes,[]);
+    });
     await test('SELECT and FETCH preserve independent message bytes',async()=>{
       await first.select();const fetched=await first.fetch('1','(UID FLAGS BODY.PEEK[])');
       assert.ok(fetched.responses.flatMap(r=>r.literals).some(b=>b.includes(Buffer.from('Independent Dovecot body'))));
@@ -114,4 +132,5 @@ finally{
 }
 const sha256=file=>createHash('sha256').update(fs.readFileSync(new URL(file,import.meta.url))).digest('hex');
 const report={timestamp:new Date().toISOString(),protocol:pop?'POP3':'IMAP',server:metadata?.version??'Dovecot 2.4',environment:process.platform==='win32'?'Windows Node client to isolated WSL Linux Dovecot':'Local Linux Dovecot',node:process.version,transport:'TCP upgraded to verified TLS; loopback only',packages:metadata?.packages??{},results,passed:results.filter(x=>x.passed).length,failed:results.filter(x=>!x.passed).length,sourceSha256:{client:sha256('./client.mjs'),engine:sha256('../web/engine.mjs'),harness:sha256('./dovecot-reference.py')}};
-fs.writeFileSync(new URL('../evidence/dovecot-validation.json',import.meta.url),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));process.exitCode=report.failed?1:0;
+const reportPath=process.env.DOVECOT_EVIDENCE??new URL('../evidence/dovecot-validation.json',import.meta.url);
+fs.writeFileSync(reportPath,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));process.exitCode=report.failed?1:0;

@@ -79,6 +79,14 @@ await test('ambiguous or invalid SEARCH results are rejected',async()=>{
   for(const rows of ['* SEARCH 42 42','* SEARCH 0','* SEARCH 4294967296','* SEARCH 42\r\n* SEARCH 43'])
     await peer((tag,c)=>c==='UID SEARCH ALL'?`${rows}\r\n${tag} OK search\r\n`:undefined,c=>reject(c,'SNAPSHOT_PROTOCOL'));
 });
+await test('ESEARCH ranges use MoonBit UID semantics and explicit expansion limits',async()=>{
+  await peer((tag,c)=>c==='UID SEARCH ALL'?`* ESEARCH (TAG "${tag}") UID COUNT 1 ALL 42 MIN 42 MAX 42\r\n${tag} OK search\r\n`:undefined,async client=>{
+    const r=await readOnlySnapshot(client);assert.deepEqual(r.uids,['42']);assert.deepEqual(r.messages[0].body,body);
+  });
+  const s=await peer((tag,c)=>c==='UID SEARCH ALL'?`* ESEARCH UID ALL 1:4294967295 COUNT 4294967295\r\n${tag} OK search\r\n`:undefined,c=>reject(c,'SNAPSHOT_LIMIT'));
+  assert.equal(hasBody(s),false);
+  await peer((tag,c)=>c==='UID SEARCH ALL'?`* ESEARCH (TAG "different") UID ALL 42\r\n${tag} OK search\r\n`:undefined,c=>reject(c,'SNAPSHOT_PROTOCOL'));
+});
 await test('message count and announced size limits stop before body download',async()=>{
   const a=await peer((tag,c)=>c==='UID SEARCH ALL'?`* SEARCH 42 43\r\n${tag} OK search\r\n`:undefined,c=>reject(c,'SNAPSHOT_LIMIT',{maxMessages:1}));assert.equal(hasBody(a),false);
   const b=await peer(undefined,c=>reject(c,'SNAPSHOT_LIMIT',{maxMessageBytes:5}));assert.equal(hasBody(b),false);
@@ -116,5 +124,5 @@ await test('invalid caps have no network side effects; simultaneous snapshot cal
 });
 const report={kind:'scripted loopback TCP peers, not an independent server',passed:results.every(r=>r.passed),groups:results.length,results};
 fs.mkdirSync('evidence/uid-snapshot-20260923',{recursive:true});
-fs.writeFileSync('evidence/uid-snapshot-20260923/snapshot-negative.json',JSON.stringify(report,null,2)+'\n');
+fs.writeFileSync(process.env.SNAPSHOT_EVIDENCE??'evidence/uid-snapshot-20260923/snapshot-negative.json',JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify(report,null,2));if(!report.passed)process.exitCode=1;

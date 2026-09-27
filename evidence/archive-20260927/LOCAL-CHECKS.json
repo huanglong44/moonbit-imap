@@ -1,0 +1,111 @@
+{
+  "recordedAt": "2026-09-27T10:55:58.021655+00:00",
+  "version": "0.7.0",
+  "scope": "Node archive consumer and streaming snapshot; MoonBit core unchanged",
+  "localOnly": true,
+  "remoteCI": "not run",
+  "toolVersions": {
+    "node": "v24.11.0",
+    "python": "Python 3.14.4"
+  },
+  "baselineCommit": "cdbcd0cc5bd64258f427749ba9339826a0536176",
+  "baselineCoreEvidence": "evidence/typed-20260927/LOCAL-CHECKS.json",
+  "unchangedCoreFiles": 22,
+  "coreApiOrEngineChanges": [],
+  "checks": [
+    {
+      "command": "moon fmt",
+      "exit": 0
+    },
+    {
+      "command": "moon info",
+      "exit": 0
+    },
+    {
+      "command": "moon build --target js; copy generated engine",
+      "exit": 0
+    },
+    {
+      "command": "node tools/test-snapshot.mjs",
+      "exit": 0,
+      "groups": 13,
+      "evidence": "snapshot-regression.json"
+    },
+    {
+      "command": "node tools/test-archive.mjs",
+      "exit": 0,
+      "groups": 6,
+      "evidence": "failures.json"
+    },
+    {
+      "command": "node examples/run-maildir-archive.mjs",
+      "exit": 0,
+      "evidence": "greenmail-python.json"
+    },
+    {
+      "command": "git diff --check",
+      "exit": 0
+    },
+    {
+      "command": "moon package --frozen and archive-content assertions",
+      "exit": 0,
+      "expectedHostFilesPresent": 8
+    }
+  ],
+  "notRun": [
+    "MoonBit core full tests (unchanged baseline retained)",
+    "Dovecot/TLS/STARTTLS regressions (unchanged)",
+    "remote CI",
+    "real user mailboxes"
+  ],
+  "sourceFingerprints": {
+    ".github/workflows/ci.yml": "5b1351c7c58391268987dd7a8a97b6a388caf50983eac13260bcf7cfccf2e802",
+    "CAPABILITY-MATRIX.md": "392f95c9f6860fd6f61983a8cbda1640d4a1733aba60e089a4c7056a5798e579",
+    "CHANGELOG.md": "1488449d24838c1b43c955cb78107b7693ece17109cd9aaa0ec32de35038965d",
+    "MAILDIR-ARCHIVE.md": "6e307dde59506f43a66eeeab2eb51a87bc7c6e09cdabb7c514c62fdec7e7bd4f",
+    "PROPOSAL.md": "af0418ab9dd0e04cfcc3dda1c562dc04d2a6c68bca75a1ab35151a8078ba733d",
+    "README.md": "d65b51803d9f051a2c38b4b745cc049d18c55329cdb99b2952cc8b3349012be7",
+    "REVIEW-RESPONSE.md": "5a9b978f1de7057b74a54817f06b7cd09cf5dbf1a93bcca5c8812ced74e5e1bd",
+    "SUBMISSION.json": "f5c0cf2cb6bde014d71a4cadd5f1825fc1179bc42ceb47d9835ca58181842b2e",
+    "TESTING.md": "cb127ddeb1e890fb0c0eb16023f39d94923742ec94711b55e18c01103b5de0e1",
+    "USE-CASE.md": "b654e1b83286d8d4a22c9b09a8927cf15dcc0bd4446f955602cea84179504463",
+    "cmd/main/main.mbt": "44b985afbd7e32055028a9f28469c328828755f85e41357bbfa7c6143dbf3b47",
+    "cmd/main/pkg.generated.mbti": "e3e8f893c3842473203d495428f52438a92ba501159e67c456a1d99a82d13195",
+    "cmd/web/main.mbt": "85af6b817ade4a199db4da26572a6698e10507297f2686f9089fd0987eac0a4b",
+    "cmd/web/projection.mbt": "e33e5a61b69988bc1dcea78af11950b6f7973e6bdde08df22e440970722f9cc4",
+    "cmd/web/session.mbt": "1915d0ddfee497a20ad29b9105da2af1009170478ce6c747ccfdc1579d156e14",
+    "commands.mbt": "8f1c1a86690894356ec17572312fbdd54a889e688561ed65ffce082101eb67a1",
+    "core_test.mbt": "16cb1b6a92dfe69aa0a01049fb8f793c8c2836bb10c7d6e9c88b6e3c634353a8",
+    "decoder.mbt": "8e2ca3c694ac714c9b72c714f5610bab2416d7b8b4ade947dac08e83c98e568d",
+    "examples/run-maildir-archive.mjs": "fd3d674304556b91a1ba1c230cb8f3588f037b8542f7c2f34246aa87a6d9cf25",
+    "examples/typed_read/main.mbt": "d08e31d811527c6e39f95901591fbf2aa8c1134a52ee86a908d328e79aaf9a9c",
+    "examples/typed_read/pkg.generated.mbti": "7b8954db1ddc2d7c4119febb7306b662625afe0deecec27f25a631f5a683eaa7",
+    "mailbox.mbt": "8f37abcce24fbcdb46fdf8ad5405f6f3f4f76df7e30ccef488f125f3868811e4",
+    "moon.mod": "e2ba8f5c780eeafe0588d2c8cef4ae6bc700f18e2ad2a96d601e303862538a5d",
+    "pkg.generated.mbti": "9598d179b6bf800db69de09ebe486dc5c5129981f26259c3c6ab990dfda0999a",
+    "protocol.mbt": "81b8acc435d759ee1182899e5cc890c26bf292a53c2b3815296e2e9b487b2a1c",
+    "response_ast.mbt": "a0b8f5adecf2a5efbf1a8aea72e688dc7eb61906c4e93ce58736b3878157f52b",
+    "response_profile.mbt": "8af2687ae566f052b3f721e1e37cf6f2fb8699ecb95994fe10b007928ff1dd9c",
+    "response_profile_test.mbt": "f9a0bc145df33739a4c48ec5dc535141353decf3b374ba69c6c87d9448f3c9fd",
+    "session.mbt": "ba64f32f06a45d3bb2375f94552130bed3838dc5ca0cc475be488ba7a719b0cd",
+    "session_test.mbt": "896e1c9787b67d143e7be0759cf28dce7cb2796295411479d8f97fbc272a2952",
+    "starttls_test.mbt": "3bc5f44413f65129a04bb84e2a18d86c8d51e1bc92e43b3291b12fc3b6ae1ba7",
+    "tools/ImapReference.java": "8733e4f6688e2e9e446259263b92ff2aab67253476939e1c4f63fc8c1909f52c",
+    "tools/archive.mjs": "5db47c75397ed9d917b0b73d41c7a073cd02b116fd58e25ab1354aa6bd57db24",
+    "tools/client.mjs": "1204b4e1b72c93841f57368f2625322bb4b34686d16183b066210c7ebd462719",
+    "tools/greenmail-harness.mjs": "22d52293afab3f1b35bc2f3df56e830612ff8743d09edb4a514da2b85887ee37",
+    "tools/snapshot-test-peer.mjs": "98cfdeb69bee339d31e094786ebb81e17f347a602b7397f8f47b3ae1124ac11d",
+    "tools/snapshot.mjs": "1c6bc99c00b9d693d32f8ad3f3b6786d05c4f132f2c4eb7f5ee5841c3bc54a68",
+    "tools/test-archive.mjs": "1813530d89f966b7c4ecd07349ae787e08e2c24d8e2c593fe4e975c19b03689c",
+    "tools/test-snapshot.mjs": "e26ff052ee1b38b63ab34b2fe899d8c2fd63eea98ad2040a8456844708cd8552",
+    "tools/typed-result.mjs": "d8b4296bc4102112aac364760af6f2d3b48159dbfc11d49feff34a900b0db2b3",
+    "uid_search.mbt": "19c9e7fdf2061a8632e75c6746e69d3676435575acb4e0acde4654b72b8ee782",
+    "usability.mbt": "0f7a6b95038c312c4271ffc5bfbec2a5602896074a23a723e27186692e5a5814",
+    "web/engine.mjs": "641b45d4ac534dc9a48a53651a223d45df06bb9305841fde4749cc74fe22eef0"
+  },
+  "independentReview": {
+    "role": "separate read-only subagent",
+    "result": "no blocking issue found in snapshot/archive/contract",
+    "testsRepeated": false
+  }
+}

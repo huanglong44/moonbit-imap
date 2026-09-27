@@ -1,3 +1,9 @@
+# 0.7.0 单向 Maildir 归档验证 · 2026-09-27
+
+本次只修改Node文件宿主与snapshot流式消费方式，MoonBit核心源码/API不变。新6组有意义的故障/发布检查、既有13组TCP snapshot回归通过；独立GreenMail2.1.13实际读取两封原创合成邮件，含NUL/0xff正文，Python3.14.4标准库Maildir再独立读取并核对全部字节/摘要，BODY.PEEK保持源服务器未读。回执见evidence/archive-20260927/LOCAL-CHECKS.json。
+
+复现新任务：`node tools/test-archive.mjs`，设置下文固定JAR后运行 `node examples/run-maildir-archive.mjs`。CI已加入这两入口，但远程CI未执行。没有重跑Dovecot、TLS和旧全部MoonBit核心测试；下方0.6.0记录为保留基线，不能算成0.7.0本轮实跑。
+
 # 0.6.0 测试范围与复现 · 2026-09-27
 
 当前新增结构/UID核心已在JS/Wasm-GC各29组测试通过，其中7组为分片、结构位置、完成门槛、身份、ESEARCH范围和拒绝边界。Node只读流程13组故障peer通过；纯MoonBit的examples/typed_read在两后端输出相同UID身份与6字节二进制正文长度。

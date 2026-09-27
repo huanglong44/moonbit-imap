@@ -1,0 +1,32 @@
+{
+  "kind": "scripted loopback TCP peers and real local filesystem; not independent server",
+  "passed": true,
+  "groups": 6,
+  "output": "D:\\CodexLocal\\ban\\work\\substantive-20260927\\temp\\imap-archive-UzPdnJ",
+  "results": [
+    {
+      "name": "stream awaits the sink and returns metadata without retaining bodies",
+      "passed": true
+    },
+    {
+      "name": "binary archive is hidden during final checks and published with a receipt",
+      "passed": true
+    },
+    {
+      "name": "empty mailbox publishes a valid empty Maildir",
+      "passed": true
+    },
+    {
+      "name": "UID additions, removals and rollover preserve only an incomplete archive",
+      "passed": true
+    },
+    {
+      "name": "sink I/O failure aborts and cannot publish or overwrite existing content",
+      "passed": true
+    },
+    {
+      "name": "publication conflict and announced byte budget cannot produce a false success",
+      "passed": true
+    }
+  ]
+}

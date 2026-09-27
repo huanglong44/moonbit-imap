@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "source": "two original synthetic messages, not a customer mailbox",
+  "server": "GreenMail 2.1.13",
+  "serverSha256": "21b361e46e8ffe83afe7915a2b01231c4a163c8d0fa5de607e32ed19732d908d",
+  "transport": "loopback TCP test account",
+  "output": "D:\\CodexLocal\\ban\\work\\substantive-20260927\\temp\\imap-maildir-independent-BMqJwc\\archive",
+  "bodyPeekPreservedUnseen": true,
+  "independentReader": {
+    "python": "3.14.4",
+    "maildirMessages": 2,
+    "bytesPreserved": true
+  },
+  "receipt": {
+    "format": "imap-maildir-v1",
+    "complete": true,
+    "sourceId": "loopback GreenMail/demo (synthetic)",
+    "mailbox": "归档示例",
+    "uidValidity": "1790505682",
+    "bytes": 278,
+    "delivered": 2,
+    "readOnly": true,
+    "remoteSnapshotAtomic": false,
+    "observedUidSetStable": true,
+    "flagsPreserved": false,
+    "publication": "hidden-until-complete",
+    "messages": [
+      {
+        "uid": "1",
+        "size": 126,
+        "sha256": "59df14631450f70d723a498e1abfaa25bfe98a6d71ce941a0abaf4a18f0ac71b",
+        "file": "new/uid-1790505682-1"
+      },
+      {
+        "uid": "2",
+        "size": 152,
+        "sha256": "365cac1f26e1474d54fd0bbc1db0466dd90c7795d447833f673e679e3b9f7277",
+        "file": "new/uid-1790505682-2"
+      }
+    ]
+  }
+}

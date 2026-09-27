@@ -2,7 +2,7 @@
 
 仓库：[https://github.com/huanglong44/moonbit-imap](https://github.com/huanglong44/moonbit-imap)
 
-模块 `huanglong44/imap`，本地 **0.6.0**，MIT。初审驳回后的本地整改，未推送、发布或提交复申，没有已证实的真实用户部署。
+模块 `huanglong44/imap`，本地 **0.7.0**，MIT。初审驳回后的本地整改，未推送、发布或提交复申，没有已证实的真实用户部署。
 
 MoonBit 调用方需要从增量网络字节获得与正确UID绑定的正文和状态，而不能把正文块的下标、message sequence number或未完成响应当作身份。核心提供字节Decoder、串行Session，以及新增的结构响应、成功完成门槛和有界UID读取投影。
 
@@ -41,13 +41,19 @@ node examples/run-uid-snapshot.mjs
 
 运行器启动未经修改的独立服务端，准备两封原创合成邮件；第二个连接只读导出、逐字节核对、检查仍未读和重复哈希，保存到新临时目录。这里验证真实服务器实现，邮件仍是合成数据，不是已有用户案例。
 
+## 完整的单向磁盘归档
+
+新增 `archiveMailbox` 逐封写入隐藏 Maildir，最终 UID 集合和 UIDVALIDITY 复查通过才发布；保存来源、身份、字节长度和 SHA-256 清单，失败目录不作为完整输出。协议解释仍由 MoonBit 核心执行，文件宿主不累积全部正文。命令、资源与失败边界见 [归档合同](MAILDIR-ARCHIVE.md)。
+
+`node examples/run-maildir-archive.mjs` 实跑独立 GreenMail → 原字节 Maildir → Python 标准库读取，两封合成邮件包含 NUL/非 UTF-8 字节，服务器保持未读。成熟的 isync/mbsync 已提供 IMAP/Maildir 同步；这里提供 MoonBit 核心的有限单向消费流程，不主张这一场景是新发明。
+
 ## 明确边界
 
 - 保留旧原始Response/Session接口。新AST是有界结构层；不声称完整ENVELOPE/BODYSTRUCTURE、literal8或所有扩展语义。
 - UID结果严格区分sequence number与持久身份；UIDNEXT是预测值，可缺失，不能生成虚构消息。ESEARCH大集合保持范围，拒绝无界展开。
 - 单literal≤1MiB、每响应≤2MiB/64个literal/64KiB UTF8语法、结构深度32、8192值；一次完成集合≤4096条/8MiB。JSON适配限制18MiB输入；不是进程内存硬配额。
 - Node导出默认100封/16MiB、最多1000封/64MiB，每封≤1MiB。未知FETCH属性在通用AST保留，但只读导出profile明确拒绝。缺失正文、NIL与空正文不混同。
-- 导出非原子；身份与集合复查不能证明中间从未改变。没有OAuth、QRESYNC/CONDSTORE、断点恢复、事务备份、并发命令关联或完整IMAP4rev2承诺。出错不返回部分高层成功，调用方负责关闭连接。
+- 导出非原子；身份与集合复查不能证明中间从未改变。没有OAuth、QRESYNC/CONDSTORE、断点恢复、事务备份、并发命令关联或完整IMAP4rev2承诺。出错不返回部分高层成功，调用方负责关闭连接。新归档提供进程内的隐藏目录发布边界，仍不承诺崩溃持久事务。
 
 ## 已有生态与初审回应
 

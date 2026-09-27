@@ -1,3 +1,10 @@
+# 0.7.0 · 2026-09-27 · local only
+
+- Add awaited per-message snapshot consumption; retain the body-collecting API for compatibility.
+- Publish a new standard Maildir only after observed final UID-set and UIDVALIDITY checks; record caller source identity, byte sizes and hashes. Leave failures explicitly incomplete.
+- Run the actual GreenMail server and Python standard-library Maildir reader on two original messages, including NUL/non-UTF-8 content; add bounded failure/publication checks.
+- Keep the existing MoonBit core/API/engine unchanged. No synchronization, flags replication or atomic remote snapshot claim; no public release performed.
+
 ## 0.5.0
 
 - 新增Node只读UID邮件导出辅助函数：EXAMINE/BODY.PEEK、身份与大小约束、末次观测检查，明确非原子。

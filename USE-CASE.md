@@ -1,3 +1,9 @@
+# 完整消费入口（0.7.0）
+
+当前单向文件归档使用 `archiveMailbox(client, newDirectory, {sourceId, mailbox})`：按 UID 逐封写盘，结束复查成功后发布标准 Maildir，保留身份/哈希清单。正文不整体累积，失败暂存不能当完整成果，源邮件FLAGS不复制。
+
+[运行与完成合同](MAILDIR-ARCHIVE.md)；[GreenMail→Maildir→Python 独立复现](examples/run-maildir-archive.mjs)。下文保留兼容的内存收集接口用法；该接口继续返回全部body，不代表新归档也在内存累积正文。
+
 # 将限定邮箱只读导出为可追踪的原始邮件
 
 任务：为下游邮件处理程序准备原始输入副本，同时保留邮箱身份和内容哈希。当前没有确认的真实使用方，选择这一流程是让交付范围可以被独立复现。

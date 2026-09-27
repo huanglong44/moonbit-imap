@@ -35,11 +35,13 @@ jobs:
       - run: node tools/test-network.mjs
       - run: node tools/test-starttls.mjs
       - run: node tools/test-snapshot.mjs
+      - run: node tools/test-archive.mjs
       - name: Independent GreenMail UID export
         run: |
           curl -fsSL https://repo.maven.apache.org/maven2/com/icegreen/greenmail-standalone/2.1.13/greenmail-standalone-2.1.13.jar -o "$RUNNER_TEMP/greenmail.jar"
           echo "21b361e46e8ffe83afe7915a2b01231c4a163c8d0fa5de607e32ed19732d908d  $RUNNER_TEMP/greenmail.jar" | sha256sum --check
           GREENMAIL_JAR="$RUNNER_TEMP/greenmail.jar" node examples/run-uid-snapshot.mjs | tee evidence/uid-snapshot-20260923/ci-greenmail.json
+          GREENMAIL_JAR="$RUNNER_TEMP/greenmail.jar" node examples/run-maildir-archive.mjs | tee evidence/archive-20260927/ci-greenmail-python.json
       - run: node tools/robustness.mjs
       - run: node tools/benchmark.mjs
       - uses: actions/upload-artifact@v4

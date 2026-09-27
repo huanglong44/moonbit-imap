@@ -2,32 +2,33 @@
   "project": "imap",
   "title": "MoonBit IMAP 结构响应与 UID 会话核心",
   "module": "huanglong44/imap",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "repository": "https://github.com/huanglong44/moonbit-imap",
   "status": "原申报已驳回；本地修订待团队同步复审",
   "rejection": "功能完整性和真实场景验证表述与仓库证据不完全一致，交付边界和成熟度不足",
-  "remainingRisk": "不是完整IMAP rev2客户端、持久化同步、原子备份或全服务商认证",
+  "remainingRisk": "无确认使用方；非完整IMAP rev2或mbsync替代，不复制FLAGS，无增量恢复、原子远程快照或崩溃持久保证",
   "actualUsersClaimed": false,
   "localChangesPublished": false,
   "formsSubmitted": false,
   "proposalLines": 14,
-  "useCase": "把literal正文与FETCH结构原位绑定，以tagged完成和UID身份提交只读结果",
-  "currentEvidence": "evidence/typed-20260927/LOCAL-CHECKS.json",
+  "useCase": "MoonBit结构UID核心逐封读取原始邮件，流式写隐藏Maildir，结束身份复查通过才发布来源/UID/哈希归档",
+  "currentEvidence": "evidence/archive-20260927/LOCAL-CHECKS.json",
   "historicalAnonymousClone": {
     "date": "2026-09-22",
     "head": "4462b16b3a813a8011b397122b145027e8570880",
     "notCurrentPublicHeadClaim": true
   },
-  "diff": "协议原有；新增MoonBit类型化响应与UID状态，宿主不再以正则猜正文归属",
+  "diff": "协议与IMAP/Maildir同步场景已有；复用MoonBit类型化UID核心，新增有界逐封磁盘消费者和失败不发布的完成合同",
   "historicalEvidencePointers": {
-    "currentEvidence": "evidence/uid-snapshot-20260923/LOCAL-CHECKS.json"
+    "currentEvidence": "evidence/uid-snapshot-20260923/LOCAL-CHECKS.json",
+    "typedCoreBaseline": "evidence/typed-20260927/LOCAL-CHECKS.json"
   },
   "originalSubmission": "imap",
   "license": "MIT",
   "acceptance": "not established",
   "remoteCIRunByThisTask": false,
-  "currentValidation": "evidence/typed-20260927/LOCAL-CHECKS.json",
+  "currentValidation": "evidence/archive-20260927/LOCAL-CHECKS.json",
   "metadataReviewedOn": "2026-09-27",
-  "currentEvidenceScope": "Typed MoonBit read-response core; GreenMail and Dovecot integration; no full-client claim",
-  "reviewDecision": "保留并补结构会话核心"
+  "currentEvidenceScope": "Node streaming archive consumer; six failure/publication groups, 13 snapshot regressions, independent GreenMail to Python Maildir raw-byte read; MoonBit core unchanged",
+  "reviewDecision": "保留结构会话核心，补齐可运行单向归档任务"
 }

@@ -1,0 +1,14 @@
+# Publication policy: preserve repository exclusions, plus required hidden fixtures.
+_build/
+target/
+.mooncakes/
+__pycache__/
+evidence/benchmark.json
+evidence/robustness.json
+evidence/coverage*
+evidence/current-validation.json
+evidence/validation-console.txt
+
+# Toolchain instructions in TOOLCHAIN.md must remain runnable from the archive.
+!/.moonbit-version
+!/.moonignore

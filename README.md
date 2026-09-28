@@ -60,3 +60,19 @@ node examples/run-uid-snapshot.mjs
 IMAP/UID语义来自既有规范，go-imap等已有成熟客户端，MoonBit已有SMTP/MIME邻近项目。本项目不称首个/生态空白，不以网络适配或测试数量冒充算法创新。新增作用是让MoonBit应用直接组合协议结构、字节正文和UID失败契约；MIME解析可以在后续交给已有库。
 
 本地与远端状态分开记录：[能力矩阵](CAPABILITY-MATRIX.md)、[复核说明](REVIEW-RESPONSE.md)、[申报正文](PROPOSAL.md)。旧0.5材料和测试回执为历史；团队需将报名表、源码和附件同步到同一提交。固定工具链见 [TOOLCHAIN](TOOLCHAIN.md)。
+
+## 本地验收与公开交付（2026-09-28）
+
+核心实现使用 MoonBit；[固定编译器](.moonbit-version)为 `moonc 0.10.14+7d59c7ec9`。先按本文安装宿主依赖、运行 `moon update`，再从仓库根目录执行以下与 [CI](.github/workflows/ci.yml) 对齐的检查；可运行任务和适用边界见本文前面的示例与说明。
+
+```sh
+moon check
+moon test --target wasm-gc
+moon test --target js
+moon build --target js
+moon package
+```
+
+本地核验：JS/Wasm-GC 测试、UID 示例、网络/STARTTLS、快照归档和 GreenMail 互通检查通过。 `moon package` 已完成离线打包预检，它不等于已发布到 Mooncakes。
+
+公开交付（2026-09-28 核对）：当日 [https://github.com/huanglong44/moonbit-imap](https://github.com/huanglong44/moonbit-imap) 可匿名读取 Git HEAD，Mooncakes 在线版本为 `0.4.0`；此处源码版本 `0.7.0` 仍需由团队同步到公开仓库，检查新提交的 GitHub Actions，再由对应账号发布 Mooncakes 新版。相关远端 CI 与赛事结果仍需以实际记录核对。项目许可见 [LICENSE](LICENSE)；如使用第三方材料，其来源和许可见仓内相应说明。

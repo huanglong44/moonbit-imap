@@ -12,3 +12,5 @@ IMAP不是新协议，go-imap等已有成熟实现，isync/mbsync已有成熟IMA
 边界：单literal1MiB、单响应2MiB、完成集合8MiB，深度和UID展开有限；未实现完整BODYSTRUCTURE、OAuth、QRESYNC/CONDSTORE、literal8、流水线或完整rev2。只读导出非原子，不是生产邮箱同步/备份产品。测试结果不能外推多服务商、长期生产成熟度。
 
 希望按当前可调用核心、复现入口和明确边界重新审核。公开仓库与报名表仍须团队同步，本地修改不等于已获通过。
+
+**验收复现与交付状态（2026-09-28 本地）**：以 moonc 0.10.14+7d59c7ec9 通过检查、JS/Wasm-GC 测试、构建、最小样例和离线 `moon package`；公开 Git HEAD 当日可匿名读取，Mooncakes 在线版 `0.4.0` 落后于本地 `0.7.0`；新版推送、远端 CI 和发布待核对。命令与能力边界见 [README](README.md)，自动检查见 [CI](.github/workflows/ci.yml)；本地通过不代表赛事审核通过。

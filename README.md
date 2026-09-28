@@ -73,6 +73,10 @@ moon build --target js --deny-warn
 moon package
 ```
 
+跨平台复核（2026-09-28，本地 Ubuntu-D 26.04 WSL2）：从当时的源码归档全新解包，固定 `moonc 0.10.14+7d59c7ec9` 下通过 `moon update`、`moon fmt --check`、`moon info`、严格检查、JS/Wasm-GC 测试及 JS release 构建；Node 24.21.0 跑通本仓一条宿主入口。本次补记仅修改文档，代码与 CI 未变；复核日志在本地交接包中，公开提交后的 GitHub Actions 仍须单独核对。
+
+专项复核：经散列核验的 GreenMail 2.1.13 上，UID 快照复读一致且保留未读状态；两封合成邮件的 Maildir 原字节由 Python 3.12 `mailbox.Maildir` 独立读回。此 WSL 环境需显式设置 `PYTHON` 路径。
+
 本地核验：JS/Wasm-GC 测试、UID 示例、网络/STARTTLS、快照归档和 GreenMail 互通检查通过。 `moon package` 已完成离线打包预检，它不等于已发布到 Mooncakes。
 
 公开交付（2026-09-28 核对）：当日 [https://github.com/huanglong44/moonbit-imap](https://github.com/huanglong44/moonbit-imap) 可匿名读取 Git HEAD，Mooncakes 在线版本为 `0.4.0`；此处源码版本 `0.7.0` 仍需由团队同步到公开仓库，检查新提交的 GitHub Actions，再由对应账号发布 Mooncakes 新版。相关远端 CI 与赛事结果仍需以实际记录核对。项目许可见 [LICENSE](LICENSE)；如使用第三方材料，其来源和许可见仓内相应说明。

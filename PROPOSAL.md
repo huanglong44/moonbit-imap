@@ -5,7 +5,7 @@
 
 目标是供MoonBit程序安全解释网络字节：正文可能包含NUL、非UTF8和CRLF，FETCH字段可以乱序，序列号不同于UID，未标记结果也不能证明命令成功。项目在原有Decoder/Session上增加结构响应、literal原位绑定、最终tagged OK提交门槛、选择状态、经典SEARCH/ESEARCH有界UID集合与有限FETCH对象。未知属性保留，无法解释或身份冲突明确拒绝。
 
-新增语法与身份逻辑位于MoonBit核心，JS/Wasm-GC调用方使用同一公共API。Node仅承担TCP/TLS、JSON/hex适配及示例文件流程；原来由宿主正则提取UID/正文的实现已替换。核心消费者示例和只读小邮箱导出示例分别说明库用法与宿主集成。0.7.0补齐逐封落盘、结束身份复查后发布Maildir的实际消费者任务；原字节与来源/UID身份/哈希一起保存，失败暂存不冒充成功归档。独立GreenMail和Python Maildir读取共同验证该链路，详见MAILDIR-ARCHIVE。
+新增语法与身份逻辑位于MoonBit核心，JS/Wasm-GC调用方使用同一公共API。Node仅承担TCP/TLS、JSON/hex适配及示例文件流程；原来由宿主正则提取UID/正文的实现已替换。核心消费者示例和只读小邮箱导出示例分别说明库用法与宿主集成。0.7.0补齐逐封落盘、结束身份复查后发布Maildir的实际消费者任务；原字节与来源/UID身份/哈希一起保存，失败暂存不冒充成功归档。独立GreenMail和Python Maildir读取共同验证该链路；隔离 Linux 用 GreenMail 2.1.13 和 Python 3.12 重跑，两封邮件原字节保留、UID 快照复读一致且仍未读，详见MAILDIR-ARCHIVE。
 
 IMAP不是新协议，go-imap等已有成熟实现，isync/mbsync已有成熟IMAP/Maildir同步，SMTP/MIME是相邻生态能力。本项目不主张生态空白、全协议兼容或算法原创；其交付作用是可复用的MoonBit会话/结构/UID读取契约，不重写MIME。独立服务器与故障证据见TESTING和CAPABILITY-MATRIX，严格区分合成邮件、真实服务端实现和未知的真实用户采用。
 
@@ -13,4 +13,4 @@ IMAP不是新协议，go-imap等已有成熟实现，isync/mbsync已有成熟IMA
 
 希望按当前可调用核心、复现入口和明确边界重新审核。公开仓库与报名表仍须团队同步，本地修改不等于已获通过。
 
-**验收复现与交付状态（2026-09-28 本地）**：以 moonc 0.10.14+7d59c7ec9 通过 `--deny-warn` 检查、JS/Wasm-GC 测试和构建、最小样例和离线 `moon package`；公开 Git HEAD 当日可匿名读取，Mooncakes 在线版 `0.4.0` 落后于本地 `0.7.0`；新版推送、远端 CI 和发布待核对。命令与能力边界见 [README](README.md)，自动检查见 [CI](.github/workflows/ci.yml)；本地通过不代表赛事审核通过。
+**验收复现与交付状态（2026-09-28 本地）**：以 moonc 0.10.14+7d59c7ec9 通过 `--deny-warn` 检查、JS/Wasm-GC 测试和构建、最小样例和离线 `moon package`；同一代码在 Ubuntu-D 26.04 WSL2 全新解包后通过格式、接口生成、严格双后端检查及 Node 24.21.0 最小宿主入口；公开 Git HEAD 当日可匿名读取，Mooncakes 在线版 `0.4.0` 落后于本地 `0.7.0`；新版推送、远端 CI 和发布待核对。命令与能力边界见 [README](README.md)，自动检查见 [CI](.github/workflows/ci.yml)；本地通过不代表赛事审核通过。

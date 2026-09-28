@@ -19,12 +19,12 @@ jobs:
       - run: moon version --all
       - run: moon update
       - run: moon fmt && moon info && git diff --exit-code
-      - run: moon check
-      - run: moon test --target wasm-gc
-      - run: moon test --target js
+      - run: moon check --deny-warn
+      - run: moon test --target wasm-gc --deny-warn
+      - run: moon test --target js --deny-warn
       - run: moon run examples/typed_read --target js
       - run: moon run examples/typed_read --target wasm-gc
-      - run: moon build --target js
+      - run: moon build --target js --deny-warn
       - name: Refresh actual browser engine
         run: |
           engine=$(find _build/js/debug/build/cmd/web -type f -name '*.js' | head -n 1)

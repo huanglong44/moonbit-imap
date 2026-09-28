@@ -18,6 +18,7 @@ pub fn valid_sequence_set(String) -> Bool
 pub suberror ImapError {
   Invalid(String)
 } derive(@debug.Debug)
+pub fn ImapError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
 pub struct CompletedResponse {
@@ -34,12 +35,16 @@ pub fn Decoder::feed(Self, Bytes) -> Array[Response] raise ImapError
 pub fn Decoder::finish(Self) -> Unit raise ImapError
 pub fn Decoder::has_partial(Self) -> Bool
 pub fn Decoder::new() -> Self
+pub fn Decoder::to_repr(Self) -> @debug.Repr
 
 pub(all) enum FetchBody {
   Missing
   NilBody
   Body(Bytes)
 } derive(Eq, @debug.Debug)
+pub fn FetchBody::equal(Self, Self) -> Bool
+pub fn FetchBody::not_equal(Self, Self) -> Bool
+pub fn FetchBody::to_repr(Self) -> @debug.Repr
 
 pub struct FetchInfo {
   sequence : Int64
@@ -49,6 +54,9 @@ pub struct FetchInfo {
   body : FetchBody
   unknown : Array[(String, ImapValue)]
 } derive(Eq, @debug.Debug)
+pub fn FetchInfo::equal(Self, Self) -> Bool
+pub fn FetchInfo::not_equal(Self, Self) -> Bool
+pub fn FetchInfo::to_repr(Self) -> @debug.Repr
 
 pub(all) enum ImapValue {
   Atom(String)
@@ -57,17 +65,26 @@ pub(all) enum ImapValue {
   Literal(Bytes)
   List(Array[ImapValue])
 } derive(Eq, @debug.Debug)
+pub fn ImapValue::equal(Self, Self) -> Bool
+pub fn ImapValue::not_equal(Self, Self) -> Bool
+pub fn ImapValue::to_repr(Self) -> @debug.Repr
 
 pub(all) enum MailboxAccess {
   ReadOnly
   ReadWrite
 } derive(Eq, @debug.Debug)
+pub fn MailboxAccess::equal(Self, Self) -> Bool
+pub fn MailboxAccess::not_equal(Self, Self) -> Bool
+pub fn MailboxAccess::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Response {
   line : String
   literals : Array[Bytes]
 } derive(Eq, @debug.Debug)
+pub fn Response::equal(Self, Self) -> Bool
+pub fn Response::not_equal(Self, Self) -> Bool
 pub fn Response::parse(Self) -> TypedResponse raise ImapError
+pub fn Response::to_repr(Self) -> @debug.Repr
 
 pub struct SelectionInfo {
   uid_validity : Int64
@@ -77,7 +94,10 @@ pub struct SelectionInfo {
   permanent_flags : Array[String]
   access : MailboxAccess
 } derive(Eq, @debug.Debug)
+pub fn SelectionInfo::equal(Self, Self) -> Bool
 pub fn SelectionInfo::identity(Self, String, Int64) -> UidIdentity raise ImapError
+pub fn SelectionInfo::not_equal(Self, Self) -> Bool
+pub fn SelectionInfo::to_repr(Self) -> @debug.Repr
 
 pub struct Session {
   // private fields
@@ -94,6 +114,7 @@ pub fn Session::literal(Self, Bytes) -> Bytes raise ImapError
 pub fn Session::new() -> Self
 pub fn Session::state(Self) -> State
 pub fn Session::tls_established(Self) -> Unit raise ImapError
+pub fn Session::to_repr(Self) -> @debug.Repr
 
 pub(all) enum State {
   Greeting
@@ -102,30 +123,45 @@ pub(all) enum State {
   Selected
   Closed
 } derive(Eq, @debug.Debug)
+pub fn State::equal(Self, Self) -> Bool
+pub fn State::not_equal(Self, Self) -> Bool
+pub fn State::to_repr(Self) -> @debug.Repr
 
 pub(all) enum TypedResponse {
   Status(String, String, Array[ImapValue], String)
   Data(Array[ImapValue])
   Continuation(String)
 } derive(Eq, @debug.Debug)
+pub fn TypedResponse::equal(Self, Self) -> Bool
+pub fn TypedResponse::not_equal(Self, Self) -> Bool
+pub fn TypedResponse::to_repr(Self) -> @debug.Repr
 
 pub struct UidIdentity {
   mailbox : String
   uid_validity : Int64
   uid : Int64
 } derive(Eq, @debug.Debug)
+pub fn UidIdentity::equal(Self, Self) -> Bool
+pub fn UidIdentity::not_equal(Self, Self) -> Bool
+pub fn UidIdentity::to_repr(Self) -> @debug.Repr
 
 pub struct UidRange {
   first : Int64
   last : Int64
 } derive(Eq, @debug.Debug)
+pub fn UidRange::equal(Self, Self) -> Bool
+pub fn UidRange::not_equal(Self, Self) -> Bool
+pub fn UidRange::to_repr(Self) -> @debug.Repr
 
 pub struct UidSet {
   count : Int64
   // private fields
 } derive(Eq, @debug.Debug)
+pub fn UidSet::equal(Self, Self) -> Bool
 pub fn UidSet::expand(Self, limit~ : Int) -> Array[Int64] raise ImapError
+pub fn UidSet::not_equal(Self, Self) -> Bool
 pub fn UidSet::ranges(Self) -> Array[UidRange]
+pub fn UidSet::to_repr(Self) -> @debug.Repr
 
 // Type aliases
 

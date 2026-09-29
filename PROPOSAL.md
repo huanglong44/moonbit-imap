@@ -1,9 +1,9 @@
-# MoonBit IMAP 结构响应与 UID 会话核心 · 修订申报草稿
+# MoonBit IMAP 结构响应与 UID 会话核心
 
 仓库：https://github.com/huanglong44/moonbit-imap
 模块：huanglong44/imap；本地0.7.0；MIT。已收到初审驳回，目前仅本地修订。
 
-目标是供MoonBit程序安全解释网络字节：正文可能包含NUL、非UTF8和CRLF，FETCH字段可以乱序，序列号不同于UID，未标记结果也不能证明命令成功。项目在原有Decoder/Session上增加结构响应、literal原位绑定、最终tagged OK提交门槛、选择状态、经典SEARCH/ESEARCH有界UID集合与有限FETCH对象。未知属性保留，无法解释或身份冲突明确拒绝。
+目标是供 MoonBit 程序有界地解释网络字节并核对消息身份：正文可能包含NUL、非UTF8和CRLF，FETCH字段可以乱序，序列号不同于UID，未标记结果也不能证明命令成功。项目在原有Decoder/Session上增加结构响应、literal原位绑定、最终tagged OK提交门槛、选择状态、经典SEARCH/ESEARCH有界UID集合与有限FETCH对象。未知属性保留，无法解释或身份冲突明确拒绝。
 
 新增语法与身份逻辑位于MoonBit核心，JS/Wasm-GC调用方使用同一公共API。Node仅承担TCP/TLS、JSON/hex适配及示例文件流程；原来由宿主正则提取UID/正文的实现已替换。核心消费者示例和只读小邮箱导出示例分别说明库用法与宿主集成。0.7.0补齐逐封落盘、结束身份复查后发布Maildir的实际消费者任务；原字节与来源/UID身份/哈希一起保存，失败暂存不冒充成功归档。独立GreenMail和Python Maildir读取共同验证该链路；隔离 Linux 用 GreenMail 2.1.13 和 Python 3.12 重跑，两封邮件原字节保留、UID 快照复读一致且仍未读，详见MAILDIR-ARCHIVE。
 

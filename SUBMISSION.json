@@ -4,7 +4,7 @@
   "module": "huanglong44/imap",
   "version": "0.7.0",
   "repository": "https://github.com/huanglong44/moonbit-imap",
-  "status": "原申报已驳回；本地修订待团队同步复审",
+  "status": "已公开对应版号及成功 CI；本轮材料仅本地修订，赛事审核结果待核实；换题是否批准待核实",
   "rejection": "功能完整性和真实场景验证表述与仓库证据不完全一致，交付边界和成熟度不足",
   "remainingRisk": "无确认使用方；非完整IMAP rev2或mbsync替代，不复制FLAGS，无增量恢复、原子远程快照或崩溃持久保证",
   "actualUsersClaimed": false,
@@ -28,7 +28,16 @@
   "acceptance": "not established",
   "remoteCIRunByThisTask": false,
   "currentValidation": "evidence/archive-20260927/LOCAL-CHECKS.json",
-  "metadataReviewedOn": "2026-09-28",
+  "metadataReviewedOn": "2026-09-29",
   "currentEvidenceScope": "Node streaming archive consumer; six failure/publication groups, 13 snapshot regressions, independent GreenMail to Python Maildir raw-byte read; MoonBit core unchanged",
-  "reviewDecision": "保留结构会话核心，补齐可运行单向归档任务"
+  "reviewDecision": "保留结构会话核心，补齐可运行单向归档任务",
+  "publicRepositoryCreated": true,
+  "publicStatusCheckedOn": "2026-09-29",
+  "publishedVersion": "0.7.0",
+  "observedRemoteCiCommit": "cfdb9074db71f108571cab5b892c76aeabd649c5",
+  "observedRemoteCiUrl": "https://github.com/huanglong44/moonbit-imap/actions/runs/36436025211",
+  "observedRemoteCiConclusion": "success",
+  "currentCoreDiffersFromObservedCi": false,
+  "publishedCoreSourceComparedOn": "2026-09-29",
+  "publishedCoreSourceMatchesLocal": true
 }

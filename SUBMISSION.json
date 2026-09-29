@@ -4,7 +4,7 @@
   "module": "huanglong44/imap",
   "version": "0.7.0",
   "repository": "https://github.com/huanglong44/moonbit-imap",
-  "status": "已公开对应版号及成功 CI；本轮材料仅本地修订，赛事审核结果待核实；换题是否批准待核实",
+  "status": "已公开对应版号及成功 CI；本轮材料仅本地修订，赛事审核结果待核实",
   "rejection": "功能完整性和真实场景验证表述与仓库证据不完全一致，交付边界和成熟度不足",
   "remainingRisk": "无确认使用方；非完整IMAP rev2或mbsync替代，不复制FLAGS，无增量恢复、原子远程快照或崩溃持久保证",
   "actualUsersClaimed": false,
